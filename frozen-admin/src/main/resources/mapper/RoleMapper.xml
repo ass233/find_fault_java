@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.frozen.frozenadmin.dao.RoleMapper" >
+  <resultMap id="BaseResultMap" type="com.frozen.frozenadmin.po.Role" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="name" property="name" jdbcType="VARCHAR" />
+    <result column="name_zh" property="nameZh" jdbcType="VARCHAR" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+
+  <sql id="Base_Column_List">
+		t.id,
+		t.name,
+		t.name_zh,
+		t.create_time,
+		t.update_time
+	</sql>
+
+  <insert id="insert" parameterType="com.frozen.frozenadmin.po.Role" >
+    insert into role (id, name, name_zh,
+      create_time, update_time)
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{nameZh,jdbcType=VARCHAR},
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+
+  <update id="update">
+    UPDATE role
+    <set>
+      <if test="pojo.id != null">`id` = #{pojo.id},</if>
+      <if test="pojo.name != null">`name` = #{pojo.name},</if>
+      <if test="pojo.nameZh != null">`name_zh` = #{pojo.nameZh},</if>
+      `update_time` = now()
+    </set>
+    WHERE id = #{pojo.id}
+  </update>
+
+  <delete id="delete" >
+		DELETE
+		FROM role
+		WHERE id = #{id}
+	</delete>
+
+  <select id="getById" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM role AS t
+    WHERE t.id = #{id}
+  </select>
+
+  <select id="getByName" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM role AS t
+    WHERE t.name = #{name}
+  </select>
+
+  <select id="list" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM role AS t
+    <trim prefix="WHERE" prefixOverrides="AND | OR">
+      <if test="pojo.nameZh != null and pojo.nameZh != ''">
+        AND t.name_zh = #{pojo.nameZh}
+      </if>
+      <if test="pojo.name != null and pojo.name != ''">
+        AND t.name like CONCAT('%',#{pojo.name},'%')
+      </if>
+    </trim>
+    <!--<if test="rows != 0">-->
+      <!--order by create_time desc limit #{start}, #{rows}-->
+    <!--</if>-->
+  </select>
+
+  <select id="listAll" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM role AS t
+  </select>
+
+  <select id="listByIds" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM role AS t
+    <where>
+      t.id in
+      <foreach collection="ids" item="item" open="(" separator="," close=")">
+        #{item}
+      </foreach>
+    </where>
+  </select>
+</mapper>

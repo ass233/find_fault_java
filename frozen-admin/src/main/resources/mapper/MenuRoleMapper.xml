@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.frozen.frozenadmin.dao.MenuRoleMapper" >
+  <resultMap id="BaseResultMap" type="com.frozen.frozenadmin.po.MenuRole" >
+    <id column="id" property="id" jdbcType="INTEGER" />
+    <result column="menu_id" property="menuId" jdbcType="INTEGER" />
+    <result column="relo_id" property="reloId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+  </resultMap>
+  <sql id="Base_Column_List">
+		t.id,
+		t.menu_id,
+		t.relo_id,
+		t.create_time,
+		t.update_time
+	</sql>
+  <insert id="insert" parameterType="com.frozen.frozenadmin.po.MenuRole" >
+    insert into menu_role (id, menu_id, relo_id,
+      create_time, update_time)
+    values (#{id,jdbcType=INTEGER}, #{menuId,jdbcType=INTEGER}, #{reloId,jdbcType=INTEGER},
+      #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP})
+  </insert>
+
+  <delete id="delete" >
+      DELETE
+      FROM menu_role
+      WHERE id = #{id}
+  </delete>
+
+  <select id="getByMenuId" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM menu_role AS t
+    WHERE t.menu_id = #{menuId}
+  </select>
+
+  <select id="getByRoleId" resultMap="BaseResultMap">
+    SELECT
+    <include refid="Base_Column_List"/>
+    FROM menu_role AS t
+    WHERE t.relo_id = #{roleId}
+  </select>
+
+  <delete id="deleteByMenuId" >
+      DELETE
+      FROM menu_role
+      WHERE t.menu_id = #{menuId}
+  </delete>
+
+  <delete id="deleteByRoleId" >
+      DELETE
+      FROM menu_role
+      WHERE t.role_id = #{roleId}
+  </delete>
+</mapper>

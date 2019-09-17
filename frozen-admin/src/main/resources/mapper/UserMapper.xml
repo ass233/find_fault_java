@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.frozen.frozenadmin.dao.UserMapper">
+    <resultMap id="BaseResultMap" type="com.frozen.frozenadmin.po.User">
+        <id column="id" jdbcType="INTEGER" property="id"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="phone" jdbcType="CHAR" property="phone"/>
+        <result column="telephone" jdbcType="VARCHAR" property="telephone"/>
+        <result column="address" jdbcType="VARCHAR" property="address"/>
+        <result column="enabled" jdbcType="BIT" property="enabled"/>
+        <result column="username" jdbcType="VARCHAR" property="username"/>
+        <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="userface" jdbcType="VARCHAR" property="userface"/>
+        <result column="remark" jdbcType="VARCHAR" property="remark"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+
+    <sql id="Base_Column_List">
+		t.id,
+		t.name,
+		t.phone,
+		t.telephone,
+		t.address,
+		t.enabled,
+		t.username,
+		t.password,
+		t.userface,
+		t.remark,
+		t.create_time,
+		t.update_time
+	</sql>
+
+    <insert id="insert" parameterType="com.frozen.frozenadmin.po.User">
+        insert into user (id, name, phone,
+          telephone, address, enabled,
+          username, password, userface,
+          remark, create_time, update_time
+          )
+        values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=CHAR},
+          #{telephone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{enabled,jdbcType=BIT},
+          #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{userface,jdbcType=VARCHAR},
+          #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
+          )
+    </insert>
+
+    <update id="update">
+        UPDATE user
+        <set>
+            <if test="pojo.id != null">`id` = #{pojo.id},</if>
+            <if test="pojo.name != null">`name` = #{pojo.name},</if>
+            <if test="pojo.phone != null">`phone` = #{pojo.phone},</if>
+            <if test="pojo.telephone != null">`telephone` = #{pojo.telephone},</if>
+            <if test="pojo.address != null">`address` = #{pojo.address},</if>
+            <if test="pojo.enabled != null">`enabled` = #{pojo.enabled},</if>
+            <if test="pojo.username != null">`username` = #{pojo.username},</if>
+            <if test="pojo.password != null">`password` = #{pojo.password},</if>
+            <if test="pojo.userface != null">`userface` = #{pojo.userface},</if>
+            <if test="pojo.remark != null">`remark` = #{pojo.remark},</if>
+            <if test="pojo.password != null">`password` = #{pojo.password},</if>
+            `update_time` = now()
+        </set>
+        WHERE id = #{pojo.id}
+    </update>
+
+    <delete id="delete" >
+		DELETE
+		FROM user
+		WHERE id = #{id}
+	</delete>
+
+    <select id="getUserById" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM user AS t
+        WHERE t.id = #{id}
+    </select>
+
+    <select id="getByUsername" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM user AS t
+        WHERE t.name = #{name}
+    </select>
+
+    <select id="list" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM user AS t
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="pojo.phone != null and pojo.phone != ''">
+                AND t.phone = #{pojo.phone}
+            </if>
+            <if test="pojo.name != null and pojo.name != ''">
+                AND t.name like CONCAT('%',#{pojo.name},'%')
+            </if>
+        </trim>
+        <!--<if test="rows != 0">-->
+            <!--order by create_time desc limit #{start}, #{rows}-->
+        <!--</if>-->
+    </select>
+
+    <select id="listAll" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM user AS t
+    </select>
+
+    <select id="listByIds" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM user AS t
+        <where>
+            t.id in
+            <foreach collection="ids" item="item" open="(" separator="," close=")">
+                #{item}
+            </foreach>
+        </where>
+    </select>
+
+</mapper>
