@@ -1,4 +1,4 @@
-package com.frozen.frozenadmin.config.security.authentication;
+package com.frozen.frozenadmin.config.security.authorize;
 
 import com.frozen.frozenadmin.po.Role;
 import com.frozen.frozenadmin.server.RoleService;
@@ -12,7 +12,9 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * @Auther: frozen
@@ -34,10 +36,12 @@ public class MyUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("用户名或者密码不正确");
         }
         String password = user.getPassword();
-        boolean enabled = user.getEnabled();
         List<GrantedAuthority> authorities = new ArrayList<>();
         List<Role> roles = roleService.getRolesByUserId(user.getId());
-        String[] strArray = roles.toArray(new String[roles.size()]);
-        return User.withUsername(username).password(password).roles(strArray).disabled(enabled).accountExpired(true).accountLocked(true).credentialsExpired(true).build();
+        String[] strArray = new String[roles.size()];
+        for(int i=0;i<roles.size();i++){
+            strArray[i]=roles.get(i).getName();
+        }
+        return User.withUsername(username).password(password).roles(strArray).disabled(false).accountExpired(false).accountLocked(false).credentialsExpired(false).build();
     }
 }

@@ -1,9 +1,9 @@
 package com.frozen.frozenadmin.server;
 
-import com.frozen.frozenadmin.dao.MenuMapper;
 import com.frozen.frozenadmin.po.Menu;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
+import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -13,14 +13,12 @@ import java.util.List;
  */
 @Service
 public class MenuService {
-    @Autowired
-    MenuMapper menuMapper;
     /**
      * 获取所有菜单
      * @return
      */
     public List<Menu> getAllMenu(){
-        return menuMapper.getAllMenu();
+        return new ArrayList<>();
     }
 
 }

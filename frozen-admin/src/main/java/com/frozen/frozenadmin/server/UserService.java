@@ -1,8 +1,8 @@
 package com.frozen.frozenadmin.server;
 
-import com.frozen.frozenadmin.dao.UserMapper;
 import com.frozen.frozenadmin.po.User;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 /**
@@ -12,22 +12,13 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class UserService {
-    @Autowired
-    UserMapper userMapper;
 
     public User getByUsername(String username) {
-        return userMapper.getByUsername(username);
-    }
-
-    public int update(User user) {
-        return userMapper.update(user);
-    }
-
-    public User getUserById(Long userId) {
-        return userMapper.getUserById(userId);
-    }
-
-    public int delete(Long userId) {
-        return userMapper.delete(userId);
+        User user = new User();
+        user.setEnabled(true);
+        //PasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        //user.setPassword(passwordEncoder.encode("123456"));
+        user.setPassword("123456");
+        return user;
     }
 }

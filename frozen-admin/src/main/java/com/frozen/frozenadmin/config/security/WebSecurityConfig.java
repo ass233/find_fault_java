@@ -3,8 +3,8 @@ package com.frozen.frozenadmin.config.security;
 import com.frozen.frozenadmin.config.security.authentication.MyAuthenticationFailureHandler;
 import com.frozen.frozenadmin.config.security.authentication.MyAuthenticationSuccessHandler;
 import com.frozen.frozenadmin.config.security.authentication.MyLogoutSuccessHandler;
-import com.frozen.frozenadmin.config.security.authentication.MyUserDetailsService;
-import com.frozen.frozenadmin.config.security.authorize.AuthenticationAccessDeniedHandler;
+import com.frozen.frozenadmin.config.security.authorize.MyUserDetailsService;
+import com.frozen.frozenadmin.config.security.authentication.AuthenticationAccessDeniedHandler;
 import com.frozen.frozenadmin.config.security.authorize.CustomMetadataSource;
 import com.frozen.frozenadmin.config.security.authorize.UrlAccessDecisionManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -42,13 +42,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
      */
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(myUserDetailsService)
-                .passwordEncoder(new BCryptPasswordEncoder());
+        auth.userDetailsService(myUserDetailsService);
+               // .passwordEncoder(new BCryptPasswordEncoder());
     }
 
     @Override
     public void configure(WebSecurity web){
-        web.ignoring().antMatchers("/index.html", "/static/**", "/login_p", "/favicon.ico");
+        web.ignoring().antMatchers("/index", "/static/**", "/favicon.ico");
     }
 
     @Override
@@ -63,7 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     }
                 })
                 .and()
-                .formLogin().loginPage("/login_p").loginProcessingUrl("/login")
+                .formLogin().loginPage("/index").loginProcessingUrl("/login")
                 .usernameParameter("username").passwordParameter("password")
                 .failureHandler(new MyAuthenticationFailureHandler())
                 .successHandler(new MyAuthenticationSuccessHandler())

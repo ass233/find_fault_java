@@ -2,7 +2,6 @@ package com.frozen.frozenadmin.config.security.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.frozen.frozenadmin.common.RespBean;
-import com.frozen.frozenadmin.util.HrUtils;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
@@ -21,7 +20,7 @@ public class MyAuthenticationSuccessHandler implements AuthenticationSuccessHand
     @Override
     public void onAuthenticationSuccess(HttpServletRequest req, HttpServletResponse resp, Authentication authentication) throws IOException, ServletException {
         resp.setContentType("application/json;charset=utf-8");
-        RespBean respBean = RespBean.ok("登录成功!", HrUtils.getCurrentHr());
+        RespBean respBean = RespBean.ok("登录成功!");
         ObjectMapper om = new ObjectMapper();
         PrintWriter out = resp.getWriter();
         out.write(om.writeValueAsString(respBean));

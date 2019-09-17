@@ -1,4 +1,4 @@
-package com.frozen.frozenadmin.config.security.authorize;
+package com.frozen.frozenadmin.config.security.authentication;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import org.springframework.security.access.AccessDeniedException;
