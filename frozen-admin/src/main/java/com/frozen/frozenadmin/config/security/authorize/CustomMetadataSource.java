@@ -32,7 +32,8 @@ public class CustomMetadataSource implements FilterInvocationSecurityMetadataSou
     /**
      *
      * @param o
-     * @return 本次访问需要的权限,如果没有匹配的url直接返回null，也就是没有配置权限的url默认都为白名单，想要换成默认是黑名单只要修改这里即可。
+     * @return 本次访问需要的权限,
+     * 如果没有匹配的url直接返回null，也就是没有配置权限的url默认都为白名单，想要换成默认是黑名单只要修改这里即可。
      */
     @Override
     public Collection<ConfigAttribute> getAttributes(Object o) {

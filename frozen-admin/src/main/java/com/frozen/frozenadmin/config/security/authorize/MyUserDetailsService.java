@@ -9,6 +9,7 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -36,6 +37,8 @@ public class MyUserDetailsService implements UserDetailsService {
             throw new UsernameNotFoundException("用户名或者密码不正确");
         }
         String password = user.getPassword();
+        password = (new BCryptPasswordEncoder()).encode(password);
+        //用户具有的权限
         List<GrantedAuthority> authorities = new ArrayList<>();
         List<Role> roles = roleService.getRolesByUserId(user.getId());
         String[] strArray = new String[roles.size()];
