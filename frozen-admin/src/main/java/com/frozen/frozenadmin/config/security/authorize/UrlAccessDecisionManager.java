@@ -32,13 +32,13 @@ public class UrlAccessDecisionManager implements AccessDecisionManager {
             ConfigAttribute ca = iterator.next();
             //当前请求需要的权限
             String needRole = ca.getAttribute();
-            if ("ROLE_LOGIN".equals(needRole)) {
-                if (auth instanceof AnonymousAuthenticationToken) {
-                    throw new BadCredentialsException("未登录");
-                } else {
-                    return;
-                }
-            }
+//            if ("ROLE_LOGIN".equals(needRole)) {
+//                if (auth instanceof AnonymousAuthenticationToken) {
+//                    throw new BadCredentialsException("未登录");
+//                } else {
+//                    return;
+//                }
+//            }
             //当前用户所具有的权限
             Collection<? extends GrantedAuthority> authorities = auth.getAuthorities();
             for (GrantedAuthority authority : authorities) {

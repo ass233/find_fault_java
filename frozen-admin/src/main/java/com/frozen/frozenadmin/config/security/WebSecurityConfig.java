@@ -1,10 +1,7 @@
 package com.frozen.frozenadmin.config.security;
 
-import com.frozen.frozenadmin.config.security.authentication.MyAuthenticationFailureHandler;
-import com.frozen.frozenadmin.config.security.authentication.MyAuthenticationSuccessHandler;
-import com.frozen.frozenadmin.config.security.authentication.MyLogoutSuccessHandler;
+import com.frozen.frozenadmin.config.security.authentication.*;
 import com.frozen.frozenadmin.config.security.authorize.MyUserDetailsService;
-import com.frozen.frozenadmin.config.security.authentication.AuthenticationAccessDeniedHandler;
 import com.frozen.frozenadmin.config.security.authorize.CustomMetadataSource;
 import com.frozen.frozenadmin.config.security.authorize.UrlAccessDecisionManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -34,6 +31,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     UrlAccessDecisionManager urlAccessDecisionManager;
     @Autowired
     AuthenticationAccessDeniedHandler deniedHandler;
+    @Autowired
+    CustomInvalidSessionStrategy invalidSessionStrategy;
 
     /**
      * 配置认证逻辑——用户信息合法性校验（用户名密码校验）
@@ -47,11 +46,18 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web){
-        web.ignoring().antMatchers("/index", "/static/**", "/*");
+        web.ignoring().antMatchers("/index", "/static/**", "/hhh");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
+        // session无效时跳转的url
+        //http.sessionManagement().invalidSessionUrl("/session/invalid");
+        http.sessionManagement()
+                // 设置session无效处理策略
+                .invalidSessionStrategy(invalidSessionStrategy)
+                // 设置同一个用户只能有一个登陆session
+                .maximumSessions(1);
         http.authorizeRequests()
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override

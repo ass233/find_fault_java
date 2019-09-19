@@ -1,10 +1,16 @@
 package com.frozen.frozenadmin.controller;
 
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.HttpStatus;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+import org.springframework.web.bind.annotation.ResponseStatus;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -49,5 +55,30 @@ public class IndexController {
         // 销毁sessioin
         request.getSession().invalidate();
         return "ok";
+    }
+    @GetMapping("/session/invalid")
+    @ResponseStatus(HttpStatus.UNAUTHORIZED)
+    public Map<String, Object> sessionInvalid(){
+        Map<String, Object> map = new HashMap<>();
+        map.put("code", 401);
+        map.put("msg", "session失效，请重新登录");
+        return map;
+    }
+
+    @GetMapping("/me")
+    @ResponseBody
+    public Object me() {
+        return SecurityContextHolder.getContext().getAuthentication();
+    }
+    @GetMapping("/me1")
+    @ResponseBody
+    public Object me1(Authentication authentication) {
+        return authentication;
+    }
+
+    @GetMapping("/me2")
+    @ResponseBody
+    public Object me2(@AuthenticationPrincipal UserDetails userDetails) {
+        return userDetails;
     }
 }
