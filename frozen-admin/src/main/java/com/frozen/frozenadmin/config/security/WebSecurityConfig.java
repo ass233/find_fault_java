@@ -6,6 +6,7 @@ import com.frozen.frozenadmin.config.security.authorize.CustomMetadataSource;
 import com.frozen.frozenadmin.config.security.authorize.UrlAccessDecisionManager;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.config.annotation.ObjectPostProcessor;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.method.configuration.EnableGlobalMethodSecurity;
@@ -33,6 +34,8 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     AuthenticationAccessDeniedHandler deniedHandler;
     @Autowired
     CustomInvalidSessionStrategy invalidSessionStrategy;
+    @Autowired
+    private AuthenticationProvider authenticationProvider;
 
     /**
      * 配置认证逻辑——用户信息合法性校验（用户名密码校验）
@@ -42,6 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(myUserDetailsService).passwordEncoder(new BCryptPasswordEncoder());
+        auth.authenticationProvider(authenticationProvider);
     }
 
     @Override
