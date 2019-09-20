@@ -13,10 +13,10 @@ import org.springframework.stereotype.Component;
 import java.util.Objects;
 
 /**
- * @author qiumin
- * @create 2019/1/12 17:35
- * @desc
- **/
+ * @Auther: frozen
+ * @Date: 2019/9/20 08:59
+ * @Description:
+ */
 @Component
 public class LoginAuthenticationProvider implements AuthenticationProvider {
 
