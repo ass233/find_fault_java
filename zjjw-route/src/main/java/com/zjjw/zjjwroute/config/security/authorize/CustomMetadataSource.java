@@ -1,5 +1,7 @@
 package com.zjjw.zjjwroute.config.security.authorize;
 
+import com.zjjw.zjjwroute.service.MenuService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
 import org.springframework.security.web.FilterInvocation;
@@ -19,6 +21,8 @@ import java.util.List;
 public class CustomMetadataSource implements FilterInvocationSecurityMetadataSource {
 
     AntPathMatcher antPathMatcher = new AntPathMatcher();
+    @Autowired
+    MenuService menuService;
 
     /**
      *
@@ -27,22 +31,12 @@ public class CustomMetadataSource implements FilterInvocationSecurityMetadataSou
      */
     @Override
     public Collection<ConfigAttribute> getAttributes(Object o) {
-//        String requestUrl = ((FilterInvocation) o).getRequestUrl();
-//        List<Menu> allMenu = menuService.getAllMenu();
-//        for (Menu menu : allMenu) {
-//            if (antPathMatcher.match(menu.getUrl(), requestUrl)
-//                    &&roleService.getRolesByMenu(menu).size()>0) {
-//                List<Role> roles = roleService.getRolesByMenu(menu);
-//                int size = roles.size();
-//                String[] values = new String[size];
-//                for (int i = 0; i < size; i++) {
-//                    values[i] = roles.get(i).getName();
-//                }
-//                return SecurityConfig.createList(values);
-//            }
-//        }
+        String requestUrl = ((FilterInvocation) o).getRequestUrl();
+        List<String> roles = menuService.getNeedRoles(requestUrl);
+        String[] roleStrs = new String[roles.size()];
+        return SecurityConfig.createList(roleStrs);
         //没有匹配上的资源，都是登录访问
-        return SecurityConfig.createList("ROLE_LOGIN");
+        //return SecurityConfig.createList("ROLE_LOGIN");
     }
     @Override
     public Collection<ConfigAttribute> getAllConfigAttributes() {

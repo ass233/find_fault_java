@@ -1,1 +1,4 @@
-com\zjjw\common\req\RespBean.class
+com\zjjw\common\res\BaseResponse.class
+com\zjjw\common\util\StringUtil.class
+com\zjjw\common\req\BaseRequest.class
+com\zjjw\common\enmus\StatusEnum.class
