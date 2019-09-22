@@ -1,4 +1,4 @@
-package com.zjjw.zjjwroute.config.security.authorize;
+package com.zjjw.zjjwroute.config.security.handler;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.zjjw.zjjwroute.common.RespBean;

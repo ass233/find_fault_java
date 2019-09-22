@@ -1,10 +1,10 @@
 package com.zjjw.zjjwroute.config.security;
 
-import com.zjjw.zjjwroute.config.security.authentication.MyAuthenticationFailureHandler;
-import com.zjjw.zjjwroute.config.security.authentication.MyAuthenticationSuccessHandler;
-import com.zjjw.zjjwroute.config.security.authentication.MyLogoutSuccessHandler;
-import com.zjjw.zjjwroute.config.security.authentication.MyUserDetailsService;
-import com.zjjw.zjjwroute.config.security.authorize.AuthenticationAccessDeniedHandler;
+import com.zjjw.zjjwroute.config.security.handler.MyAuthenticationFailureHandler;
+import com.zjjw.zjjwroute.config.security.handler.MyAuthenticationSuccessHandler;
+import com.zjjw.zjjwroute.config.security.handler.MyLogoutSuccessHandler;
+import com.zjjw.zjjwroute.config.security.authorize.MyUserDetailsService;
+import com.zjjw.zjjwroute.config.security.handler.AuthenticationAccessDeniedHandler;
 import com.zjjw.zjjwroute.config.security.authorize.CustomMetadataSource;
 import com.zjjw.zjjwroute.config.security.authorize.UrlAccessDecisionManager;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -48,7 +48,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web){
-        web.ignoring().antMatchers("/index.html", "/static/**", "/login", "/*", "/favicon.ico");
+        web.ignoring().antMatchers("/index", "/static/**");
     }
 
     @Override
@@ -63,7 +63,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                     }
                 })
                 .and()
-                .formLogin().loginPage("/login_p").loginProcessingUrl("/login")
+                .formLogin().loginPage("/index").loginProcessingUrl("/login")
                 .usernameParameter("username").passwordParameter("password")
                 .failureHandler(new MyAuthenticationFailureHandler())
                 .successHandler(new MyAuthenticationSuccessHandler())
