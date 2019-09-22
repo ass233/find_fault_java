@@ -3,6 +3,7 @@ package com.zjjw.zjjwroute.config.security.authorize;
 
 import com.zjjw.zjjwroute.service.RoleService;
 import com.zjjw.zjjwroute.service.UserService;
+import com.zjjw.zjjwserver.spi.res.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -31,8 +32,8 @@ public class MyUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        String password = userService.getPassword(username);
-        password = (new BCryptPasswordEncoder()).encode(password);
+        UserVo userVo = userService.getPasswordByUserName(username);
+        String password = (new BCryptPasswordEncoder()).encode(userVo.getPassword());
         List<String> rolestr =roleService.getRoles(username);
         return new User(username,password,getRoles(rolestr));
     }
