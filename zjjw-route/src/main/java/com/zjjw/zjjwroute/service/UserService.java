@@ -2,6 +2,7 @@ package com.zjjw.zjjwroute.service;
 
 import com.google.common.net.MediaType;
 import com.zjjw.zjjwroute.constant.Constant;
+import com.zjjw.zjjwroute.util.HttpUtils;
 import com.zjjw.zjjwroute.vo.req.LoginReqVO;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,6 +17,9 @@ import org.springframework.stereotype.Service;
 @Service
 @Slf4j
 public class UserService {
+    @Autowired
+    HttpUtils httpUtils;
+
     /**
      * 获取用户密码
      * @param userName

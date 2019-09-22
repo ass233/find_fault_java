@@ -20,6 +20,10 @@
     <dependencies>
         <dependency>
             <groupId>com.zjjw</groupId>
+            <artifactId>zjjw-common</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.zjjw</groupId>
             <artifactId>zjjw-server-spi</artifactId>
         </dependency>
 
