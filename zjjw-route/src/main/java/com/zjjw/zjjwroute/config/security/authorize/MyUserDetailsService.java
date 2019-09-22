@@ -34,7 +34,7 @@ public class MyUserDetailsService implements UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserVo userVo = userService.getPasswordByUserName(username);
         String password = (new BCryptPasswordEncoder()).encode(userVo.getPassword());
-        List<String> rolestr =roleService.getRoles(username);
+        List<String> rolestr =roleService.getRoles(userVo.getId());
         return new User(username,password,getRoles(rolestr));
     }
 

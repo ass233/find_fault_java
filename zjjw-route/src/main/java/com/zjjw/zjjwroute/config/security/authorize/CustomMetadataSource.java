@@ -1,6 +1,7 @@
 package com.zjjw.zjjwroute.config.security.authorize;
 
 import com.zjjw.zjjwroute.service.MenuService;
+import com.zjjw.zjjwroute.service.RoleService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.access.ConfigAttribute;
 import org.springframework.security.access.SecurityConfig;
@@ -23,6 +24,8 @@ public class CustomMetadataSource implements FilterInvocationSecurityMetadataSou
     AntPathMatcher antPathMatcher = new AntPathMatcher();
     @Autowired
     MenuService menuService;
+    @Autowired
+    RoleService roleService;
 
     /**
      *
@@ -32,7 +35,7 @@ public class CustomMetadataSource implements FilterInvocationSecurityMetadataSou
     @Override
     public Collection<ConfigAttribute> getAttributes(Object o) {
         String requestUrl = ((FilterInvocation) o).getRequestUrl();
-        List<String> roles = menuService.getNeedRoles(requestUrl);
+        List<String> roles = roleService.getNeedRoles(requestUrl);
         String[] roleStrs = new String[roles.size()];
         return SecurityConfig.createList(roleStrs);
         //没有匹配上的资源，都是登录访问
