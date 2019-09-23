@@ -45,7 +45,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(myUserDetailsService).passwordEncoder(new BCryptPasswordEncoder());
-        auth.authenticationProvider(authenticationProvider);
+        //auth.authenticationProvider(authenticationProvider);
     }
 
     @Override
@@ -55,34 +55,32 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        // session无效时跳转的url
-        //http.sessionManagement().invalidSessionUrl("/session/invalid");
-        http.sessionManagement()
-                // 设置session无效处理策略
-                .invalidSessionStrategy(invalidSessionStrategy)
-                // 设置同一个用户只能有一个登陆session
-                .maximumSessions(1);
-        http.authorizeRequests()
+        http.csrf().disable()
+                .authorizeRequests()
                 .withObjectPostProcessor(new ObjectPostProcessor<FilterSecurityInterceptor>() {
                     @Override
                     public <O extends FilterSecurityInterceptor> O postProcess(O o) {
-                        o.setSecurityMetadataSource(metadataSource);
                         o.setAccessDecisionManager(urlAccessDecisionManager);
+                        o.setSecurityMetadataSource(metadataSource);
                         return o;
                     }
                 })
+
+                .anyRequest()
+                .authenticated()// 其他 url 需要身份认证
+
                 .and()
-                .formLogin().loginPage("/index").loginProcessingUrl("/login")
-                .usernameParameter("username").passwordParameter("password")
-                .failureHandler(new MyAuthenticationFailureHandler())
+                .formLogin()  //开启登录
                 .successHandler(new MyAuthenticationSuccessHandler())
+                .failureHandler(new MyAuthenticationFailureHandler())
                 .permitAll()
+
                 .and()
                 .logout()
                 .logoutUrl("/logout")
-                .logoutSuccessHandler(new MyLogoutSuccessHandler())
                 .permitAll()
-                .and().csrf().disable()
+                .and()
                 .exceptionHandling().accessDeniedHandler(deniedHandler);
     }
+
 }

@@ -1,13 +1,10 @@
-package com.zjjw.zjjwserver.controller;
+package com.zjjw.zjjwroute.controller;
 
 import com.zjjw.common.res.BaseResponse;
-import com.zjjw.zjjwserver.po.Role;
-import com.zjjw.zjjwserver.po.UserRole;
-import com.zjjw.zjjwserver.services.RoleService;
+import com.zjjw.zjjwroute.service.RoleService;
 import com.zjjw.zjjwserver.spi.res.MenuVo;
 import com.zjjw.zjjwserver.spi.res.RoleVo;
 import com.zjjw.zjjwserver.spi.res.UserRoleVo;
-import com.zjjw.zjjwserver.spi.res.UserVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -28,25 +25,15 @@ import java.util.List;
 @RequestMapping("/")
 @Slf4j
 public class RoleController {
+
     @Autowired
     RoleService roleService;
-    @RequestMapping(value = "getAllRole")
-    @ResponseBody
-    public String getAllRole(){
-        List<Role> list = roleService.getAllRole();
-        log.info("allRole={}", Arrays.toString(list.toArray()));
-        return Arrays.toString(list.toArray());
-    }
 
     @RequestMapping(value = "getListByUserId")
     @ResponseBody
     public BaseResponse getListByUserId(@RequestBody UserRoleVo userRoleVo){
-        List<RoleVo> list = new ArrayList<>();
-        RoleVo roleVo = new RoleVo();
-        roleVo.setId(1l);
-        list.add(roleVo);
-        BaseResponse response = BaseResponse.create(list);
-        return response;
+        List<String> roles = roleService.getRoles(userRoleVo.getUserId());
+        return BaseResponse.create(roles);
     }
 
     @RequestMapping(value = "getListByMenuUrl")

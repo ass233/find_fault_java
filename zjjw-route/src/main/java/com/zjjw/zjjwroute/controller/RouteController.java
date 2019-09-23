@@ -37,7 +37,7 @@ public class RouteController {
         BaseResponse<ServerResVO> res = new BaseResponse();
         //登录校验
         StatusEnum status = StatusEnum.SUCCESS;
-        String server = randomHandle.routeServer(serverCache.getAll(), String.valueOf(loginReqVO.getUserId()));
+        String server = randomHandle.routeServer( String.valueOf(loginReqVO.getUserId()));
         String[] serverInfo = server.split(":");
         ServerResVO vo = new ServerResVO(serverInfo[0], Integer.parseInt(serverInfo[1]), Integer.parseInt(serverInfo[2]));
         //保存路由信息
@@ -56,6 +56,6 @@ public class RouteController {
     @RequestMapping(value = "getAllServer", method = RequestMethod.GET)
     @ResponseBody()
     public String getAllServer() throws Exception {
-        return  randomHandle.routeServer(serverCache.getAll(),"");
+        return  randomHandle.routeServer("");
     }
 }

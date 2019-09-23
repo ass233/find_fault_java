@@ -20,9 +20,6 @@ public class AccountService {
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
 
-    private MediaType mediaType = MediaType.parse("application/json");
-
-
     public void saveRouteInfo(LoginReqVO loginReqVO, String msg) throws Exception {
         String key = Constant.ROUTE_PREFIX + loginReqVO.getUserId();
         redisTemplate.opsForValue().set(key, msg);
