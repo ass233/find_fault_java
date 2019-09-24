@@ -27,7 +27,7 @@ public class RoleService {
     public List<Role> getRolesByUserId(Long userId){
         List<Role> roles =   new ArrayList<>();
         Role role = new Role();
-        role.setName("admin");
+        role.setName("adminfrozen");
         roles.add(role);
         return roles;
     }

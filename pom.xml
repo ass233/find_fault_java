@@ -30,6 +30,7 @@
         <module>zjjw-route</module>
         <module>zjjw-server</module>
         <module>frozen-admin</module>
+        <module>zjjw-server-spi</module>
     </modules>
 
 
@@ -39,6 +40,12 @@
                 <groupId>com.zjjw</groupId>
                 <artifactId>zjjw-common</artifactId>
                 <version>0.0.1-SNAPSHOT</version>
+            </dependency>
+
+            <dependency>
+                <groupId>com.zjjw</groupId>
+                <artifactId>zjjw-server-spi</artifactId>
+                <version>0.0.2-SNAPSHOT</version>
             </dependency>
 
             <dependency>

@@ -1,8 +1,11 @@
+CREATE DATABASE /*!32312 IF NOT EXISTS*/`zjjw` /*!40100 DEFAULT CHARACTER SET utf8 */;
+
+USE `zjjw`;
 -- ----------------------------
 -- Table structure for user
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_user`;
-CREATE TABLE `sys_user` (
+DROP TABLE IF EXISTS `user`;
+CREATE TABLE `user` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '用户ID',
   `name` varchar(32) DEFAULT NULL COMMENT '姓名',
   `phone` char(11) DEFAULT NULL COMMENT '手机号码',
@@ -22,8 +25,8 @@ CREATE TABLE `sys_user` (
 -- ----------------------------
 -- Table structure for role
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_role`;
-CREATE TABLE `sys_role` (
+DROP TABLE IF EXISTS `role`;
+CREATE TABLE `role` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `name` varchar(64) DEFAULT NULL COMMENT '角色名称',
   `name_zh` varchar(64) DEFAULT NULL COMMENT '角色名称中文',
@@ -35,8 +38,8 @@ CREATE TABLE `sys_role` (
 -- ----------------------------
 -- Table structure for menu
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_menu`;
-CREATE TABLE `sys_menu` (
+DROP TABLE IF EXISTS `menu`;
+CREATE TABLE `menu` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `url` varchar(64) DEFAULT NULL COMMENT 'url',
   `component` varchar(64) DEFAULT NULL COMMENT '菜单内容',
@@ -55,8 +58,8 @@ CREATE TABLE `sys_menu` (
 -- ----------------------------
 -- Table structure for hr_role
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_user_role`;
-CREATE TABLE `sys_user_role` (
+DROP TABLE IF EXISTS `user_role`;
+CREATE TABLE `user_role` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `user_id` bigint(20) DEFAULT NULL COMMENT '用户ID',
   `role_id` bigint(20) DEFAULT NULL COMMENT '角色ID',
@@ -69,8 +72,8 @@ CREATE TABLE `sys_user_role` (
 -- ----------------------------
 -- Table structure for menu_role
 -- ----------------------------
-DROP TABLE IF EXISTS `sys_menu_role`;
-CREATE TABLE `sys_menu_role` (
+DROP TABLE IF EXISTS `menu_role`;
+CREATE TABLE `menu_role` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT,
   `menu_id` bigint(20) DEFAULT NULL COMMENT '菜单ID',
   `role_id` bigint(20) DEFAULT NULL COMMENT '角色ID',
@@ -81,8 +84,8 @@ CREATE TABLE `sys_menu_role` (
 
 
 
-DROP TABLE IF EXISTS `sys_company_info`;
-CREATE TABLE `sys_company_info` (
+DROP TABLE IF EXISTS `company_info`;
+CREATE TABLE `company_info` (
 	`id` bigint(20) NOT NULL AUTO_INCREMENT,
 	`company_name` varchar(32) COMMENT '企业名称',
 	`is_list` int(2) DEFAULT '0' COMMENT '是否上市',
@@ -96,8 +99,8 @@ CREATE TABLE `sys_company_info` (
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='企业信息表';
 
-DROP TABLE IF EXISTS `sys_company_dynamic`;
-CREATE TABLE `sys_company_dynamic` (
+DROP TABLE IF EXISTS `company_dynamic`;
+CREATE TABLE `company_dynamic` (
 	`id` bigint(20) NOT NULL AUTO_INCREMENT,
 	`company_id` bigint(20) NOT NULL COMMENT '企业ID',
 	`type` int(4) DEFAULT '0' COMMENT '动态类型',
@@ -109,8 +112,8 @@ CREATE TABLE `sys_company_dynamic` (
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='企业动态表';
 
-DROP TABLE IF EXISTS `sys_company_evaluate`;
-CREATE TABLE `sys_company_evaluate` (
+DROP TABLE IF EXISTS `company_evaluate`;
+CREATE TABLE `company_evaluate` (
 	`id` bigint(20) NOT NULL AUTO_INCREMENT,
 	`company_id` bigint(20) NOT NULL COMMENT '企业ID',
 	`evaluate_info` varchar(500) DEFAULT NULL COMMENT '评价信息',
@@ -129,8 +132,8 @@ CREATE TABLE `sys_company_evaluate` (
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='企业评价表';
 
-DROP TABLE IF EXISTS `sys_company_knock_out`;
-CREATE TABLE `sys_company_info` (
+DROP TABLE IF EXISTS `company_info`;
+CREATE TABLE `company_info` (
 	`id` bigint(20) NOT NULL AUTO_INCREMENT,
 	`company_id` bigint(20) NOT NULL COMMENT '企业ID',
 	`knock_out_info` varchar(128)  COMMENT '爆料信息',
@@ -141,8 +144,8 @@ CREATE TABLE `sys_company_info` (
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='企业爆料表';
 
-DROP TABLE IF EXISTS `sys_company_product`;
-CREATE TABLE `sys_company_product` (
+DROP TABLE IF EXISTS `company_product`;
+CREATE TABLE `company_product` (
 	`id` bigint(20) NOT NULL AUTO_INCREMENT,
 	`company_id` bigint(20) NOT NULL COMMENT '企业ID',
 	`product_name` varchar(128)  COMMENT '产品名称',
@@ -154,8 +157,8 @@ CREATE TABLE `sys_company_product` (
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='企业产品表';
 
-DROP TABLE IF EXISTS `sys_company_position`;
-CREATE TABLE `sys_company_position` (
+DROP TABLE IF EXISTS `company_position`;
+CREATE TABLE `company_position` (
 	`id` bigint(20) NOT NULL AUTO_INCREMENT,
 	`company_id` bigint(20) NOT NULL COMMENT '企业ID',
 	`position_name` varchar(128) COMMENT '职位名称',
@@ -176,8 +179,8 @@ CREATE TABLE `sys_company_position` (
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='企业职位表';
 
-DROP TABLE IF EXISTS `sys_interview`;
-CREATE TABLE `sys_interview` (
+DROP TABLE IF EXISTS `interview`;
+CREATE TABLE `interview` (
 	`id` bigint(20) NOT NULL AUTO_INCREMENT,
 	`company_id` bigint(20) NOT NULL COMMENT '企业ID',
 	`position_id` bigint(20) NOT NULL COMMENT '职位ID',
@@ -198,8 +201,8 @@ CREATE TABLE `sys_interview` (
 ) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8 COMMENT='面试表';
 
 
-DROP TABLE IF EXISTS `sys_user_info`;
-CREATE TABLE `sys_user_info` (
+DROP TABLE IF EXISTS `user_info`;
+CREATE TABLE `user_info` (
 	`id` bigint(20) NOT NULL AUTO_INCREMENT,
 	`user_id` bigint(20) NOT NULL COMMENT '用户ID',
 	`age` int(4) DEFAULT NULL COMMENT '年龄',
@@ -219,8 +222,8 @@ CREATE TABLE `sys_user_info` (
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8 COMMENT='用户基本信息表';
 
-DROP TABLE IF EXISTS `sys_user_relation`;
-CREATE TABLE `sys_user_relation` (
+DROP TABLE IF EXISTS `user_relation`;
+CREATE TABLE `user_relation` (
 	`id` bigint(20) NOT NULL AUTO_INCREMENT,
 	`user_id` bigint(20) NOT NULL COMMENT '用户ID',
 	`relation_user_id` bigint(20) NOT NULL COMMENT '关系用户ID',
@@ -232,8 +235,8 @@ CREATE TABLE `sys_user_relation` (
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8 COMMENT='用户关系表';
 
-DROP TABLE IF EXISTS `sys_user_resume`;
-CREATE TABLE `sys_user_resume` (
+DROP TABLE IF EXISTS `user_resume`;
+CREATE TABLE `user_resume` (
 	`id` bigint(20) NOT NULL AUTO_INCREMENT,
 	`user_id` bigint(20) NOT NULL COMMENT '用户ID',
 	`impression_score` int(8) DEFAULT NULL COMMENT '印象分',
@@ -246,8 +249,8 @@ CREATE TABLE `sys_user_resume` (
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8 COMMENT='用户简历信息表';
 
-DROP TABLE IF EXISTS `sys_user_education`;
-CREATE TABLE `sys_user_education` (
+DROP TABLE IF EXISTS `user_education`;
+CREATE TABLE `user_education` (
 	`id` bigint(20) NOT NULL AUTO_INCREMENT,
 	`user_id` bigint(20) NOT NULL COMMENT '用户ID',
 	`school` varchar(16) NOT NULL COMMENT '学校',
@@ -259,8 +262,8 @@ CREATE TABLE `sys_user_education` (
 	PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8 COMMENT='用户教育经历表';
 
-DROP TABLE IF EXISTS `sys_user_dynamic`;
-CREATE TABLE `sys_user_dynamic` (
+DROP TABLE IF EXISTS `user_dynamic`;
+CREATE TABLE `user_dynamic` (
 	`id` bigint(20) NOT NULL AUTO_INCREMENT,
 	`user_id` bigint(20) NOT NULL COMMENT '用户ID',
 	`type` int(4) DEFAULT NULL COMMENT '动态类型',
