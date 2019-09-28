@@ -19,15 +19,6 @@ import java.util.Arrays;
 @RequestMapping("/")
 @Slf4j
 public class IndexController {
-    @Autowired
-    MenuService menuService;
-
-    @RequestMapping(value = "sendMsg")
-    @ResponseBody
-    public String sendMsg(@RequestParam String msg){
-        log.info("allMenu={}", Arrays.toString(menuService.getAllMenu().toArray()));
-        return "success";
-    }
 
     @RequestMapping(value = "index")
     public String index(){

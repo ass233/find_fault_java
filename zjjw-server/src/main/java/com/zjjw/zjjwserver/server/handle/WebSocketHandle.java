@@ -1,6 +1,6 @@
 package com.zjjw.zjjwserver.server.handle;
 
-import com.zjjw.zjjwserver.server.MsgHandler;
+import com.zjjw.zjjwserver.services.im.MsgHandler;
 import com.zjjw.zjjwserver.util.SessionSocketHolder;
 import com.zjjw.zjjwserver.util.SpringBeanFactory;
 import io.netty.buffer.Unpooled;
@@ -33,10 +33,12 @@ public class WebSocketHandle extends SimpleChannelInboundHandler<Object> {
             MsgHandler msgHandler = SpringBeanFactory.getBean(MsgHandler.class) ;
             //处理通道
             msgHandler.channelHandler(ctx,msgStr);
-            //处理消息
+            //获取发送人sessionId
             String sessionId = ctx.channel().id().asLongText();
-            String respones = msgHandler.sendMsg(sessionId,msgStr);
-            //ctx.channel().writeAndFlush(new TextWebSocketFrame(respones));
+            //发送消息
+            String respones = msgHandler.sendMsg(sessionId,null,msgStr);
+            //返回发送结果
+            ctx.channel().writeAndFlush(new TextWebSocketFrame(respones));
         }else if(msg instanceof BinaryWebSocketFrame){
             LOGGER.info("收到二进制消息："+((BinaryWebSocketFrame)msg).content().readableBytes());
             BinaryWebSocketFrame binaryWebSocketFrame=new BinaryWebSocketFrame(Unpooled.buffer().writeBytes("xxx".getBytes()));

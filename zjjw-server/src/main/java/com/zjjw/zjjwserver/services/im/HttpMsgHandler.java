@@ -1,4 +1,4 @@
-package com.zjjw.zjjwserver.server;
+package com.zjjw.zjjwserver.services.im;
 
 import com.zjjw.zjjwserver.server.command.InnerCommand;
 import com.zjjw.zjjwserver.server.command.InnerCommandContext;
@@ -6,6 +6,7 @@ import com.zjjw.zjjwserver.util.SessionSocketHolder;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
+import lombok.extern.slf4j.Slf4j;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,24 +23,19 @@ import java.util.Map;
  * @since JDK 1.8
  */
 @Service
-public class MsgHandler {
-    private final static Logger LOGGER = LoggerFactory.getLogger(MsgHandler.class);
+@Slf4j
+public  class HttpMsgHandler extends AbstractMsgHandler{
+    private final static Logger LOGGER = LoggerFactory.getLogger(HttpMsgHandler.class);
     @Autowired
     private InnerCommandContext innerCommandContext ;
 
-    public String sendMsg(String sessionId, String msg) {
-        String[] totalMsg = msg.split(";;");
-        if (totalMsg.length > 1) {
-            //私聊
-            LOGGER.info("私聊");
-            NioSocketChannel nioSocketChannel = SessionSocketHolder.getMAP().get(totalMsg[1]);
-            if(nioSocketChannel==null){
-                return "用户不在线";
-            }
-            nioSocketChannel.writeAndFlush(new TextWebSocketFrame(msg));
-        } else {
+    @Override
+    public String sendMsg(String userId, String receiverId, String msg) {
+        String sessionId = "";
+        //群发
+        if(StringUtils.isEmpty(sessionId)){
             //群聊
-            LOGGER.info("群聊");
+            log.info("群聊");
             Map<String, NioSocketChannel> map =  SessionSocketHolder.getUserMAP();
             for(Map.Entry<String, NioSocketChannel> entry:map.entrySet()){
                 //过滤自己
@@ -50,7 +46,7 @@ public class MsgHandler {
                 nioSocketChannel.writeAndFlush(new TextWebSocketFrame(msg));
             }
         }
-        return "返回应答";
+        return null;
     }
 
     /**
@@ -111,31 +107,6 @@ public class MsgHandler {
     }
 
 
-
-    /**
-     * 查询聊天记录
-     *
-     * @param msg
-     */
-    private void queryChatHistory(String msg) {
-        String[] split = msg.split(" ");
-
-        System.out.println();
-    }
-
-    /**
-     * 打印在线用户
-     */
-    private void printOnlineUsers() {
-        try {
-
-            LOGGER.info("~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~");
-
-        } catch (Exception e) {
-            LOGGER.error("Exception", e);
-        }
-    }
-
     private void printAllCommand(Map<String, String> allStatusCode) {
         LOGGER.warn("====================================");
         for (Map.Entry<String, String> stringStringEntry : allStatusCode.entrySet()) {
@@ -145,4 +116,5 @@ public class MsgHandler {
         }
         LOGGER.warn("====================================");
     }
+
 }
