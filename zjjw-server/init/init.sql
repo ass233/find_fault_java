@@ -83,6 +83,40 @@ CREATE TABLE `menu_role` (
 ) ENGINE=InnoDB AUTO_INCREMENT=278 DEFAULT CHARSET=utf8;
 
 
+DROP TABLE IF EXISTS `msg_content`;
+CREATE TABLE `msg_content` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `content_id` bigint(20) NOT NULL COMMENT '消息ID',
+  `content` varchar(128) DEFAULT NULL COMMENT '消息内容',
+  `type` int(4) DEFAULT '0' COMMENT '消息类型',
+  `create_time` timestamp NULL DEFAULT NULL,
+  `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `msg_index`;
+CREATE TABLE `msg_index` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL  COMMENT '用户ID',
+  `receiver_id` bigint(20) NOT NULL  COMMENT '接收人ID',
+  `content_id` bigint(20) NOT NULL  COMMENT '消息ID',
+  `type` int(4) DEFAULT '0' COMMENT '动态类型',
+  `create_time` timestamp NULL DEFAULT NULL,
+  `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `msg_recent`;
+CREATE TABLE `msg_recent` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL  COMMENT '用户ID',
+  `receiver_id` bigint(20) NOT NULL  COMMENT '接收人ID',
+  `content_id` bigint(20) NOT NULL  COMMENT '消息ID',
+  `create_time` timestamp NULL DEFAULT NULL,
+  `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+
 
 DROP TABLE IF EXISTS `company_info`;
 CREATE TABLE `company_info` (
