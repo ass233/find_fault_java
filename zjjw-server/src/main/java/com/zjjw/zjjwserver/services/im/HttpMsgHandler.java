@@ -1,8 +1,11 @@
 package com.zjjw.zjjwserver.services.im;
 
+import com.zjjw.zjjwserver.cache.UserSessionCache;
 import com.zjjw.zjjwserver.server.command.InnerCommand;
 import com.zjjw.zjjwserver.server.command.InnerCommandContext;
-import com.zjjw.zjjwserver.util.SessionSocketHolder;
+import com.zjjw.zjjwserver.cache.SessionSocketCache;
+import io.netty.channel.ChannelFuture;
+import io.netty.channel.ChannelFutureListener;
 import io.netty.channel.ChannelHandlerContext;
 import io.netty.channel.socket.nio.NioSocketChannel;
 import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
@@ -30,39 +33,22 @@ public  class HttpMsgHandler extends AbstractMsgHandler{
     private InnerCommandContext innerCommandContext ;
 
     @Override
-    public String sendMsg(String userId, String receiverId, String msg) {
-        String sessionId = "";
-        //群发
-        if(StringUtils.isEmpty(sessionId)){
-            //群聊
-            log.info("群聊");
-            Map<String, NioSocketChannel> map =  SessionSocketHolder.getUserMAP();
-            for(Map.Entry<String, NioSocketChannel> entry:map.entrySet()){
-                //过滤自己
-                if(sessionId.equals(entry.getKey())){
-                    continue;
-                }
-                NioSocketChannel nioSocketChannel = entry.getValue();
-                nioSocketChannel.writeAndFlush(new TextWebSocketFrame(msg));
+    public String sendMsg(String userId, String receiverId, String msg,Integer type) {
+        try {
+            NioSocketChannel socketChannel = UserSessionCache.get(receiverId);
+            if (null == socketChannel) {
+                log.error("receiverId={}不在线",receiverId);
+                return receiverId+"不在线";
             }
-        }
-        return null;
-    }
-
-    /**
-     * 处理用户消息通道
-     * @param ctx
-     * @param msg
-     */
-    public void channelHandler(ChannelHandlerContext ctx,String msg) {
-        if(!StringUtils.isEmpty(msg)){
-            if(msg.contains("login")){
-                String[] strings = StringUtils.split(msg,":");
-                SessionSocketHolder.put(Long.valueOf(strings[1]), (NioSocketChannel) ctx.channel());
-            }
+            socketChannel.writeAndFlush(new TextWebSocketFrame(msg));
+            ChannelFuture future = socketChannel.writeAndFlush(msg);
+            future.addListener((ChannelFutureListener) channelFuture ->
+                    LOGGER.info("服务端手动发送成功={}", msg));
+            return null;
+        }catch (Exception e){
+            return "发送消息失败";
         }
     }
-
 
     /**
      * AI model
@@ -78,14 +64,6 @@ public  class HttpMsgHandler extends AbstractMsgHandler{
         return msg;
     }
 
-
-    public boolean checkMsg(String msg) {
-        if (StringUtils.isEmpty(msg)) {
-            LOGGER.warn("不能发送空消息！");
-            return true;
-        }
-        return false;
-    }
 
     /**
      * 内置命令

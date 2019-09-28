@@ -6,5 +6,5 @@ package com.zjjw.zjjwserver.services.im;
  * @Description:
  */
 public interface BaseMsgHandler {
-    String sendMsg(String senderId,String receiverId, String msg);
+    String sendMsg(String senderId,String receiverId, String msg,Integer type);
 }

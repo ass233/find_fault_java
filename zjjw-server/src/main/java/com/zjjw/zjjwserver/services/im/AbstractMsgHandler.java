@@ -2,9 +2,6 @@ package com.zjjw.zjjwserver.services.im;
 
 import com.zjjw.zjjwserver.server.command.InnerCommand;
 import com.zjjw.zjjwserver.server.command.InnerCommandContext;
-import com.zjjw.zjjwserver.util.SessionSocketHolder;
-import io.netty.channel.socket.nio.NioSocketChannel;
-import io.netty.handler.codec.http.websocketx.TextWebSocketFrame;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.util.StringUtils;

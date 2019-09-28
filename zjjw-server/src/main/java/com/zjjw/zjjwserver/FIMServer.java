@@ -1,7 +1,7 @@
 package com.zjjw.zjjwserver;
 
 import com.zjjw.zjjwserver.server.init.WebSocketChannelInitializer;
-import com.zjjw.zjjwserver.util.SessionSocketHolder;
+import com.zjjw.zjjwserver.cache.SessionSocketCache;
 import io.netty.bootstrap.ServerBootstrap;
 import io.netty.channel.ChannelFuture;
 import io.netty.channel.ChannelFutureListener;
@@ -79,8 +79,8 @@ public class FIMServer {
      * @param userId
      * @param msg
      */
-    public void sendP2pMsg(long userId,String msg){
-        NioSocketChannel socketChannel = SessionSocketHolder.get(userId);
+    public void sendP2pMsg(String userId,String msg){
+        NioSocketChannel socketChannel = SessionSocketCache.get(userId);
         if (null == socketChannel) {
             throw new NullPointerException("客户端[" + userId + "]不在线！");
         }
@@ -94,7 +94,7 @@ public class FIMServer {
      * @param msg
      */
     public void sendAllMsg(String msg){
-        Map<String, NioSocketChannel> map =  SessionSocketHolder.getUserMAP();
+        Map<String, NioSocketChannel> map =  SessionSocketCache.getUserMAP();
         for(Map.Entry<String, NioSocketChannel> entry:map.entrySet()){
             NioSocketChannel nioSocketChannel = entry.getValue();
             ChannelFuture future = nioSocketChannel.writeAndFlush(new TextWebSocketFrame(msg));

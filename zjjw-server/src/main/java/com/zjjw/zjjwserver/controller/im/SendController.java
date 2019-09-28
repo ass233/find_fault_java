@@ -40,7 +40,10 @@ public class SendController {
             log.error("receiverId null userId={},msg={}",userId,msg);
             return  BaseResponse.createFail("接收者ID不能为空");
         }
-        String result = httpMsgHandler.sendMsg( userId,receiverId,msg) ;
+        if (StringUtils.isEmpty(msg)) {
+            return  BaseResponse.createFail("不能发送空消息！");
+        }
+        String result = httpMsgHandler.sendMsg(userId,receiverId,msg,0) ;
         if(StringUtils.isEmpty(result)){
             return BaseResponse.createSuccess();
         }else {
