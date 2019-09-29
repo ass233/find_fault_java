@@ -9,8 +9,10 @@ import com.zjjw.zjjwserver.spi.res.RoleVo;
 import com.zjjw.zjjwserver.spi.res.UserRoleVo;
 import com.zjjw.zjjwserver.spi.res.UserVo;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.util.CollectionUtils;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -41,10 +43,15 @@ public class RoleController {
     @RequestMapping(value = "getListByUserId")
     @ResponseBody
     public BaseResponse getListByUserId(@RequestBody UserRoleVo userRoleVo){
-        List<RoleVo> list = new ArrayList<>();
-        RoleVo roleVo = new RoleVo();
-        roleVo.setId(1l);
-        list.add(roleVo);
+        List<RoleVo> list =new ArrayList<>();
+        List<Role> roles =roleService.getRolesByUserId(userRoleVo.getUserId());
+        if(!CollectionUtils.isEmpty(roles)){
+            for(Role role :roles){
+                RoleVo roleVo = new RoleVo();
+                BeanUtils.copyProperties(role,roleVo);
+                list.add(roleVo);
+            }
+        }
         BaseResponse response = BaseResponse.create(list);
         return response;
     }

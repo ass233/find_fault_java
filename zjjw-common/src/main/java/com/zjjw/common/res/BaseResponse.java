@@ -29,6 +29,11 @@ public class BaseResponse<T> implements Serializable{
 		this.message = message;
 	}
 
+	public BaseResponse(String code, T dataBody) {
+		this.code = code;
+		this.dataBody = dataBody;
+	}
+
 	public BaseResponse(String code, String message, T dataBody) {
 		this.code = code;
 		this.message = message;
@@ -50,12 +55,28 @@ public class BaseResponse<T> implements Serializable{
 		return new BaseResponse<T>(statusEnum.getCode(), statusEnum.getMessage(), t);
 	}
 
+	public static <T> BaseResponse<T> createSuccess(){
+		return new BaseResponse<T>(StatusEnum.SUCCESS.getCode(),  StatusEnum.SUCCESS.getMessage());
+	}
+
+	public static <T> BaseResponse<T> createSuccess(T t){
+		return new BaseResponse<T>(StatusEnum.SUCCESS.getCode(), t);
+	}
+
 	public static <T> BaseResponse<T> createSuccess(T t, String message){
 		return new BaseResponse<T>(StatusEnum.SUCCESS.getCode(), StringUtil.isNullOrEmpty(message) ? StatusEnum.SUCCESS.getMessage() : message, t);
 	}
 
 	public static <T> BaseResponse<T> createFail(T t, String message){
 		return new BaseResponse<T>(StatusEnum.FAIL.getCode(), StringUtil.isNullOrEmpty(message) ? StatusEnum.FAIL.getMessage() : message, t);
+	}
+
+	public static BaseResponse createFail(String message){
+		return new BaseResponse(StatusEnum.FAIL.getCode(), StringUtil.isNullOrEmpty(message) ? StatusEnum.FAIL.getMessage() : message);
+	}
+
+	public static BaseResponse createFail(String message,StatusEnum statusEnum){
+		return new BaseResponse(statusEnum.getCode(), StringUtil.isNullOrEmpty(message) ? statusEnum.getMessage() : message);
 	}
 
 	public static <T> BaseResponse<T> create(T t, StatusEnum statusEnum, String message){

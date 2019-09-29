@@ -1,6 +1,6 @@
 package com.zjjw.zjjwserver.server.command;
 
-import com.zjjw.zjjwserver.server.MsgHandler;
+import com.zjjw.zjjwserver.services.im.MsgHandler;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;

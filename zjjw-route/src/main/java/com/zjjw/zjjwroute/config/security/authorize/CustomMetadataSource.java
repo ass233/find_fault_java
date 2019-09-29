@@ -34,12 +34,12 @@ public class CustomMetadataSource implements FilterInvocationSecurityMetadataSou
      */
     @Override
     public Collection<ConfigAttribute> getAttributes(Object o) {
-        String requestUrl = ((FilterInvocation) o).getRequestUrl();
-        List<String> roles = roleService.getNeedRoles(requestUrl);
-        String[] roleStrs = new String[roles.size()];
-        return SecurityConfig.createList(roleStrs);
+        return SecurityConfig.createList("ROLE_LOGIN");
+//        String requestUrl = ((FilterInvocation) o).getRequestUrl();
+//        List<String> roles = roleService.getNeedRoles(requestUrl);
+//        String[] roleStrs = new String[roles.size()];
+//        return SecurityConfig.createList(roleStrs);
         //没有匹配上的资源，都是登录访问
-        //return SecurityConfig.createList("ROLE_LOGIN");
     }
     @Override
     public Collection<ConfigAttribute> getAllConfigAttributes() {

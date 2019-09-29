@@ -57,7 +57,7 @@ public class RoleService {
      * @throws Exception
      */
     public List<String> getNeedRoles(String requestUrl){
-        String url = randomHandle.getServerUrl("/getListByMenuUrl");
+        String url = randomHandle.getServerUrl(requestUrl);
         MenuVo menuVo = new MenuVo();
         menuVo.setUrl(requestUrl);
         String json = httpUtils.sendMsg(url, JSON.toJSONString(menuVo));

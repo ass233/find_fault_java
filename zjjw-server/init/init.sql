@@ -82,6 +82,90 @@ CREATE TABLE `menu_role` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=278 DEFAULT CHARSET=utf8;
 
+DROP TABLE IF EXISTS `group`;
+CREATE TABLE `group` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '群ID',
+  `name` varchar(32) DEFAULT NULL COMMENT '群名称',
+  `admin_id` bigint(20) DEFAULT NULL COMMENT '群主ID',
+  `icon` varchar(128) DEFAULT NULL COMMENT '群图标',
+  `notice` varchar(256) DEFAULT NULL COMMENT '群公告',
+  `info` varchar(128) DEFAULT NULL COMMENT '群介绍',
+  `remark` varchar(255) DEFAULT NULL,
+  `create_time` timestamp NULL DEFAULT NULL,
+  `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `group_to_user`;
+CREATE TABLE `group_to_user` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) DEFAULT NULL COMMENT '用户ID',
+  `group_id` bigint(20) DEFAULT NULL COMMENT '群ID',
+  `nick` varchar(32) DEFAULT NULL COMMENT '群昵称',
+  `create_time` timestamp NULL DEFAULT NULL,
+  `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
+
+
+DROP TABLE IF EXISTS `msg_content`;
+CREATE TABLE `msg_content` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `content_id` bigint(20) NOT NULL COMMENT '消息ID',
+  `content` varchar(256) DEFAULT NULL COMMENT '消息内容',
+  `type` int(4) DEFAULT '0' COMMENT '消息类型',
+  `create_time` timestamp NULL DEFAULT NULL,
+  `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `msg_index`;
+CREATE TABLE `msg_index` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL  COMMENT '用户ID',
+  `receiver_id` bigint(20) NOT NULL  COMMENT '接收人ID',
+  `content_id` bigint(20) NOT NULL  COMMENT '消息ID',
+  `type` int(4) DEFAULT '0' COMMENT '类型',
+  `create_time` timestamp NULL DEFAULT NULL,
+  `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `msg_recent`;
+CREATE TABLE `msg_recent` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `user_id` bigint(20) NOT NULL  COMMENT '用户ID',
+  `receiver_id` bigint(20) NOT NULL  COMMENT '接收人ID',
+  `content_id` bigint(20) NOT NULL  COMMENT '消息ID',
+  `create_time` timestamp NULL DEFAULT NULL,
+  `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=13 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `msg_group`;
+CREATE TABLE `msg_group` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `group_id` bigint(20) DEFAULT NULL COMMENT '群ID',
+  `content` varchar(256) DEFAULT NULL COMMENT '消息内容',
+  `send_id` bigint(20) DEFAULT NULL COMMENT '用户ID',
+  `send_nick` varchar(32) DEFAULT NULL COMMENT '发送者昵称',
+  `create_time` timestamp NULL DEFAULT NULL,
+  `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
+
+DROP TABLE IF EXISTS `msg_group_to_user`;
+CREATE TABLE `msg_group_to_user` (
+  `id` bigint(20) NOT NULL AUTO_INCREMENT,
+  `group_id` bigint(20) DEFAULT NULL COMMENT '群ID',
+  `msg_group_id` bigint(20) DEFAULT NULL COMMENT '群消息ID',
+  `content` varchar(256) DEFAULT NULL COMMENT '消息内容',
+  `receiver_id` bigint(20) DEFAULT NULL COMMENT '接收者ID',
+  `state` int(4) DEFAULT '0' COMMENT '消息状态',
+  `create_time` timestamp NULL DEFAULT NULL,
+  `update_time` timestamp NULL DEFAULT NULL ON UPDATE CURRENT_TIMESTAMP,
+  PRIMARY KEY (`id`)
+) ENGINE=InnoDB AUTO_INCREMENT=50 DEFAULT CHARSET=utf8;
 
 
 DROP TABLE IF EXISTS `company_info`;

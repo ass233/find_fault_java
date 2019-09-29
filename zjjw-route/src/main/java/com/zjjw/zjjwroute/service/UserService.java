@@ -3,6 +3,7 @@ package com.zjjw.zjjwroute.service;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.TypeReference;
 import com.google.common.net.MediaType;
+import com.zjjw.common.enmus.StatusEnum;
 import com.zjjw.common.res.BaseResponse;
 import com.zjjw.zjjwroute.constant.Constant;
 import com.zjjw.zjjwroute.route.algorithm.RandomHandle;
@@ -34,11 +35,14 @@ public class UserService {
      * @throws Exception
      */
     public UserVo getPasswordByUserName(String userName){
-        String url = randomHandle.getServerUrl("/getUserByUserName");
+        String url = randomHandle.getServerUrl("/getByName");
         UserVo userVo = new UserVo();
         userVo.setName(userName);
         String json = httpUtils.sendMsg(url, JSON.toJSONString(userVo));
         BaseResponse<UserVo> response= JSON.parseObject(json,new TypeReference<BaseResponse<UserVo>>() {});
+        if(!StatusEnum.SUCCESS.code().equals(response.getCode())){
+            return null;
+        }
         UserVo responseUserVo=response.getDataBody();
         return responseUserVo;
     }

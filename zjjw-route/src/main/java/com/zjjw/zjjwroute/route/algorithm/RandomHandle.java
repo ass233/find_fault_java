@@ -32,12 +32,20 @@ public class RandomHandle {
         int offset = ThreadLocalRandom.current().nextInt(size);
         String server = values.get(offset);
         String[] serverInfo = server.split(":");
-        ServerResVO serverResVO = new ServerResVO(serverInfo[0], Integer.parseInt(serverInfo[1]),Integer.parseInt(serverInfo[2]));
+        ServerResVO serverResVO = new ServerResVO();
+        serverResVO.setIp(serverInfo[0]);
+        serverResVO.setCimServerPort(Integer.parseInt(serverInfo[1]));
+        serverResVO.setHttpPort(Integer.parseInt(serverInfo[2]));
         return serverResVO;
     }
 
     public String getServerUrl(String requestUrl){
         ServerResVO serverResVO = this.routeServerVo();
+        String url = "http://" + serverResVO.getIp() + ":" + serverResVO.getHttpPort() + requestUrl ;
+        return url;
+    }
+
+    public String getImServerUrl(ServerResVO serverResVO,String requestUrl){
         String url = "http://" + serverResVO.getIp() + ":" + serverResVO.getHttpPort() + requestUrl ;
         return url;
     }

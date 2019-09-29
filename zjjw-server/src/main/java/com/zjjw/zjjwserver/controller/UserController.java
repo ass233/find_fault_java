@@ -5,6 +5,7 @@ import com.zjjw.zjjwserver.po.User;
 import com.zjjw.zjjwserver.services.UserService;
 import com.zjjw.zjjwserver.spi.res.UserVo;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -34,10 +35,13 @@ public class UserController {
         return Arrays.toString(list.toArray());
     }
 
-    @RequestMapping(value = "getUserByUserName")
+    @RequestMapping(value = "getByName")
     @ResponseBody
-    public BaseResponse getUserByUserName(@RequestBody UserVo userVo){
-        BaseResponse response = BaseResponse.create(userVo);
+    public BaseResponse getByName(@RequestBody UserVo userVo){
+        User user = userService.getByName(userVo.getName());
+        UserVo userVo1 = new UserVo();
+        BeanUtils.copyProperties(user,userVo1);
+        BaseResponse response = BaseResponse.createSuccess(userVo1);
         return response;
     }
 }

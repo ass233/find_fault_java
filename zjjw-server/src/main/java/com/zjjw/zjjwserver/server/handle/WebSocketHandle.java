@@ -1,7 +1,7 @@
 package com.zjjw.zjjwserver.server.handle;
 
-import com.zjjw.zjjwserver.server.MsgHandler;
-import com.zjjw.zjjwserver.util.SessionSocketHolder;
+import com.zjjw.zjjwserver.services.im.MsgHandler;
+import com.zjjw.zjjwserver.cache.SessionSocketCache;
 import com.zjjw.zjjwserver.util.SpringBeanFactory;
 import io.netty.buffer.Unpooled;
 import io.netty.channel.ChannelHandlerContext;
@@ -21,9 +21,9 @@ public class WebSocketHandle extends SimpleChannelInboundHandler<Object> {
     private final static Logger LOGGER = LoggerFactory.getLogger(WebSocketHandle.class);
     @Override
     public void channelActive(ChannelHandlerContext ctx) throws Exception {
-        LOGGER.info("channelActive connect");
         String sessionId = ctx.channel().id().asLongText();
-        SessionSocketHolder.putUser(sessionId,(NioSocketChannel) ctx.channel());
+        LOGGER.info("channelActive connect sessionId={}",sessionId);
+        SessionSocketCache.put(sessionId,(NioSocketChannel) ctx.channel());
     }
     @Override
     protected void channelRead0(ChannelHandlerContext ctx, Object msg) throws Exception {
@@ -31,11 +31,15 @@ public class WebSocketHandle extends SimpleChannelInboundHandler<Object> {
         if(msg instanceof TextWebSocketFrame){
             String msgStr= ((TextWebSocketFrame)msg).text();
             MsgHandler msgHandler = SpringBeanFactory.getBean(MsgHandler.class) ;
-            //处理通道
-            msgHandler.channelHandler(ctx,msgStr);
-            //处理消息
+            //获取发送人sessionId
             String sessionId = ctx.channel().id().asLongText();
-            String respones = msgHandler.sendMsg(sessionId,msgStr);
+            //ws登录
+            if (msgHandler.login(ctx, sessionId, msgStr)) {
+                return;
+            }
+            //发送消息
+            String respones = msgHandler.sendMsg(sessionId,null,msgStr);
+            //返回发送结果
             //ctx.channel().writeAndFlush(new TextWebSocketFrame(respones));
         }else if(msg instanceof BinaryWebSocketFrame){
             LOGGER.info("收到二进制消息："+((BinaryWebSocketFrame)msg).content().readableBytes());
@@ -48,7 +52,7 @@ public class WebSocketHandle extends SimpleChannelInboundHandler<Object> {
     public void channelUnregistered(ChannelHandlerContext ctx) throws Exception {
         LOGGER.info("channelUnregistered");
         String sessionId = ctx.channel().id().asLongText();
-        SessionSocketHolder.removeUser(sessionId);
+        SessionSocketCache.removeUser(sessionId);
     }
 
     @Override

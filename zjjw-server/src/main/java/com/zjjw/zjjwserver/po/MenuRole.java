@@ -11,7 +11,7 @@ public class MenuRole {
 
     private Long menuId;
 
-    private Long reloId;
+    private Long roleId;
 
     private Date createTime;
 

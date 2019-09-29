@@ -1,0 +1,386 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="com.zjjw.zjjwserver.dao.InterviewMapper" >
+  <resultMap id="BaseResultMap" type="com.zjjw.zjjwserver.po.Interview" >
+    <id column="id" property="id" jdbcType="BIGINT" />
+    <result column="company_id" property="companyId" jdbcType="BIGINT" />
+    <result column="position_id" property="positionId" jdbcType="BIGINT" />
+    <result column="user_id" property="userId" jdbcType="BIGINT" />
+    <result column="statue" property="statue" jdbcType="INTEGER" />
+    <result column="resume_id" property="resumeId" jdbcType="BIGINT" />
+    <result column="resume_share" property="resumeShare" jdbcType="INTEGER" />
+    <result column="interview_experience" property="interviewExperience" jdbcType="VARCHAR" />
+    <result column="company_condition" property="companyCondition" jdbcType="VARCHAR" />
+    <result column="salary" property="salary" jdbcType="INTEGER" />
+    <result column="interview_num" property="interviewNum" jdbcType="INTEGER" />
+    <result column="entry_intention" property="entryIntention" jdbcType="INTEGER" />
+    <result column="is_delete" property="isDelete" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="TIMESTAMP" />
+    <result column="update_time" property="updateTime" jdbcType="TIMESTAMP" />
+    <result column="remark" property="remark" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    id, company_id, position_id, user_id, statue, resume_id, resume_share, interview_experience, 
+    company_condition, salary, interview_num, entry_intention, is_delete, create_time, 
+    update_time, remark
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="com.zjjw.zjjwserver.po.InterviewExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from interview
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select 
+    <include refid="Base_Column_List" />
+    from interview
+    where id = #{id,jdbcType=BIGINT}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+    delete from interview
+    where id = #{id,jdbcType=BIGINT}
+  </delete>
+  <delete id="deleteByExample" parameterType="com.zjjw.zjjwserver.po.InterviewExample" >
+    delete from interview
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="com.zjjw.zjjwserver.po.Interview" >
+    insert into interview (id, company_id, position_id, 
+      user_id, statue, resume_id, 
+      resume_share, interview_experience, company_condition, 
+      salary, interview_num, entry_intention, 
+      is_delete, create_time, update_time, 
+      remark)
+    values (#{id,jdbcType=BIGINT}, #{companyId,jdbcType=BIGINT}, #{positionId,jdbcType=BIGINT}, 
+      #{userId,jdbcType=BIGINT}, #{statue,jdbcType=INTEGER}, #{resumeId,jdbcType=BIGINT}, 
+      #{resumeShare,jdbcType=INTEGER}, #{interviewExperience,jdbcType=VARCHAR}, #{companyCondition,jdbcType=VARCHAR}, 
+      #{salary,jdbcType=INTEGER}, #{interviewNum,jdbcType=INTEGER}, #{entryIntention,jdbcType=INTEGER}, 
+      #{isDelete,jdbcType=INTEGER}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}, 
+      #{remark,jdbcType=VARCHAR})
+  </insert>
+  <insert id="insertSelective" parameterType="com.zjjw.zjjwserver.po.Interview" >
+    insert into interview
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        id,
+      </if>
+      <if test="companyId != null" >
+        company_id,
+      </if>
+      <if test="positionId != null" >
+        position_id,
+      </if>
+      <if test="userId != null" >
+        user_id,
+      </if>
+      <if test="statue != null" >
+        statue,
+      </if>
+      <if test="resumeId != null" >
+        resume_id,
+      </if>
+      <if test="resumeShare != null" >
+        resume_share,
+      </if>
+      <if test="interviewExperience != null" >
+        interview_experience,
+      </if>
+      <if test="companyCondition != null" >
+        company_condition,
+      </if>
+      <if test="salary != null" >
+        salary,
+      </if>
+      <if test="interviewNum != null" >
+        interview_num,
+      </if>
+      <if test="entryIntention != null" >
+        entry_intention,
+      </if>
+      <if test="isDelete != null" >
+        is_delete,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="updateTime != null" >
+        update_time,
+      </if>
+      <if test="remark != null" >
+        remark,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=BIGINT},
+      </if>
+      <if test="companyId != null" >
+        #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="positionId != null" >
+        #{positionId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="statue != null" >
+        #{statue,jdbcType=INTEGER},
+      </if>
+      <if test="resumeId != null" >
+        #{resumeId,jdbcType=BIGINT},
+      </if>
+      <if test="resumeShare != null" >
+        #{resumeShare,jdbcType=INTEGER},
+      </if>
+      <if test="interviewExperience != null" >
+        #{interviewExperience,jdbcType=VARCHAR},
+      </if>
+      <if test="companyCondition != null" >
+        #{companyCondition,jdbcType=VARCHAR},
+      </if>
+      <if test="salary != null" >
+        #{salary,jdbcType=INTEGER},
+      </if>
+      <if test="interviewNum != null" >
+        #{interviewNum,jdbcType=INTEGER},
+      </if>
+      <if test="entryIntention != null" >
+        #{entryIntention,jdbcType=INTEGER},
+      </if>
+      <if test="isDelete != null" >
+        #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        #{remark,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="com.zjjw.zjjwserver.po.InterviewExample" resultType="java.lang.Integer" >
+    select count(*) from interview
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update interview
+    <set >
+      <if test="record.id != null" >
+        id = #{record.id,jdbcType=BIGINT},
+      </if>
+      <if test="record.companyId != null" >
+        company_id = #{record.companyId,jdbcType=BIGINT},
+      </if>
+      <if test="record.positionId != null" >
+        position_id = #{record.positionId,jdbcType=BIGINT},
+      </if>
+      <if test="record.userId != null" >
+        user_id = #{record.userId,jdbcType=BIGINT},
+      </if>
+      <if test="record.statue != null" >
+        statue = #{record.statue,jdbcType=INTEGER},
+      </if>
+      <if test="record.resumeId != null" >
+        resume_id = #{record.resumeId,jdbcType=BIGINT},
+      </if>
+      <if test="record.resumeShare != null" >
+        resume_share = #{record.resumeShare,jdbcType=INTEGER},
+      </if>
+      <if test="record.interviewExperience != null" >
+        interview_experience = #{record.interviewExperience,jdbcType=VARCHAR},
+      </if>
+      <if test="record.companyCondition != null" >
+        company_condition = #{record.companyCondition,jdbcType=VARCHAR},
+      </if>
+      <if test="record.salary != null" >
+        salary = #{record.salary,jdbcType=INTEGER},
+      </if>
+      <if test="record.interviewNum != null" >
+        interview_num = #{record.interviewNum,jdbcType=INTEGER},
+      </if>
+      <if test="record.entryIntention != null" >
+        entry_intention = #{record.entryIntention,jdbcType=INTEGER},
+      </if>
+      <if test="record.isDelete != null" >
+        is_delete = #{record.isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.updateTime != null" >
+        update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="record.remark != null" >
+        remark = #{record.remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update interview
+    set id = #{record.id,jdbcType=BIGINT},
+      company_id = #{record.companyId,jdbcType=BIGINT},
+      position_id = #{record.positionId,jdbcType=BIGINT},
+      user_id = #{record.userId,jdbcType=BIGINT},
+      statue = #{record.statue,jdbcType=INTEGER},
+      resume_id = #{record.resumeId,jdbcType=BIGINT},
+      resume_share = #{record.resumeShare,jdbcType=INTEGER},
+      interview_experience = #{record.interviewExperience,jdbcType=VARCHAR},
+      company_condition = #{record.companyCondition,jdbcType=VARCHAR},
+      salary = #{record.salary,jdbcType=INTEGER},
+      interview_num = #{record.interviewNum,jdbcType=INTEGER},
+      entry_intention = #{record.entryIntention,jdbcType=INTEGER},
+      is_delete = #{record.isDelete,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=TIMESTAMP},
+      update_time = #{record.updateTime,jdbcType=TIMESTAMP},
+      remark = #{record.remark,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="com.zjjw.zjjwserver.po.Interview" >
+    update interview
+    <set >
+      <if test="companyId != null" >
+        company_id = #{companyId,jdbcType=BIGINT},
+      </if>
+      <if test="positionId != null" >
+        position_id = #{positionId,jdbcType=BIGINT},
+      </if>
+      <if test="userId != null" >
+        user_id = #{userId,jdbcType=BIGINT},
+      </if>
+      <if test="statue != null" >
+        statue = #{statue,jdbcType=INTEGER},
+      </if>
+      <if test="resumeId != null" >
+        resume_id = #{resumeId,jdbcType=BIGINT},
+      </if>
+      <if test="resumeShare != null" >
+        resume_share = #{resumeShare,jdbcType=INTEGER},
+      </if>
+      <if test="interviewExperience != null" >
+        interview_experience = #{interviewExperience,jdbcType=VARCHAR},
+      </if>
+      <if test="companyCondition != null" >
+        company_condition = #{companyCondition,jdbcType=VARCHAR},
+      </if>
+      <if test="salary != null" >
+        salary = #{salary,jdbcType=INTEGER},
+      </if>
+      <if test="interviewNum != null" >
+        interview_num = #{interviewNum,jdbcType=INTEGER},
+      </if>
+      <if test="entryIntention != null" >
+        entry_intention = #{entryIntention,jdbcType=INTEGER},
+      </if>
+      <if test="isDelete != null" >
+        is_delete = #{isDelete,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="updateTime != null" >
+        update_time = #{updateTime,jdbcType=TIMESTAMP},
+      </if>
+      <if test="remark != null" >
+        remark = #{remark,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="com.zjjw.zjjwserver.po.Interview" >
+    update interview
+    set company_id = #{companyId,jdbcType=BIGINT},
+      position_id = #{positionId,jdbcType=BIGINT},
+      user_id = #{userId,jdbcType=BIGINT},
+      statue = #{statue,jdbcType=INTEGER},
+      resume_id = #{resumeId,jdbcType=BIGINT},
+      resume_share = #{resumeShare,jdbcType=INTEGER},
+      interview_experience = #{interviewExperience,jdbcType=VARCHAR},
+      company_condition = #{companyCondition,jdbcType=VARCHAR},
+      salary = #{salary,jdbcType=INTEGER},
+      interview_num = #{interviewNum,jdbcType=INTEGER},
+      entry_intention = #{entryIntention,jdbcType=INTEGER},
+      is_delete = #{isDelete,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=TIMESTAMP},
+      update_time = #{updateTime,jdbcType=TIMESTAMP},
+      remark = #{remark,jdbcType=VARCHAR}
+    where id = #{id,jdbcType=BIGINT}
+  </update>
+</mapper>
