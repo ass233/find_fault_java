@@ -33,7 +33,7 @@ public  class HttpMsgHandler extends AbstractMsgHandler{
     private InnerCommandContext innerCommandContext ;
 
     @Override
-    public String sendMsg(String userId, String receiverId, String msg,Integer type) {
+    public String sendMsg(String userId, String receiverId, String msg) {
         try {
             NioSocketChannel socketChannel = UserSessionCache.get(receiverId);
             if (null == socketChannel) {

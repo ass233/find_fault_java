@@ -18,8 +18,8 @@ public class UserService {
     @Autowired
     UserMapper userMapper;
 
-    public User getByUsername(String username) {
-        return userMapper.getByUsername(username);
+    public User getByName(String username) {
+        return userMapper.getByName(username);
     }
 
     public int update(User user) {

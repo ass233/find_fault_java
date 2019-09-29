@@ -15,7 +15,7 @@ public interface UserMapper {
 
     User getUserById(@Param("id") long id);
 
-    User getByUsername(@Param("name") String name);
+    User getByName(@Param("name") String name);
 
     List<User> list(@Param("pojo") User user);
 

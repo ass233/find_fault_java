@@ -1,13 +1,13 @@
 package com.zjjw.zjjwroute.config.security.authorize;
 
 
+import com.zjjw.zjjwroute.config.security.UserRoute;
 import com.zjjw.zjjwroute.service.RoleService;
 import com.zjjw.zjjwroute.service.UserService;
 import com.zjjw.zjjwserver.spi.res.UserVo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -33,9 +33,15 @@ public class MyUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         UserVo userVo = userService.getPasswordByUserName(username);
-        String password = (new BCryptPasswordEncoder()).encode(userVo.getPassword());
+        String pd =null ;
+        if(userVo!=null){
+            pd=userVo.getPassword();
+        }
+        String password = (new BCryptPasswordEncoder()).encode(pd);
         List<String> rolestr =roleService.getRoles(userVo.getId());
-        return new User(username,password,getRoles(rolestr));
+        UserRoute userRoute = new UserRoute(username,password,getRoles(rolestr));
+        userRoute.setUserId(userVo.getId());
+        return userRoute;
     }
 
     /**
@@ -49,6 +55,8 @@ public class MyUserDetailsService implements UserDetailsService {
             SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority(role);
             list.add(grantedAuthority);
         }
+        SimpleGrantedAuthority grantedAuthority = new SimpleGrantedAuthority("ROLE_LOGIN");
+        list.add(grantedAuthority);
         return list;
     }
 }

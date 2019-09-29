@@ -3,10 +3,12 @@ package com.zjjw.zjjwserver.controller.im;
 import com.zjjw.common.res.BaseResponse;
 import com.zjjw.zjjwserver.services.im.HttpMsgHandler;
 import com.zjjw.zjjwserver.services.im.MsgHandler;
+import com.zjjw.zjjwserver.spi.req.ImMsgVo;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.util.StringUtils;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
@@ -28,8 +30,14 @@ public class SendController {
 
     @RequestMapping(value = "sendMsg")
     @ResponseBody
-    public BaseResponse sendMsg(@RequestParam String userId, String receiverId, String msg){
-        log.info("userId={},receiverId={},msg={}",userId, receiverId,  msg);
+    public BaseResponse sendMsg(@RequestBody ImMsgVo msgVo){
+        log.info("msgVo={}",  msgVo);
+        if(msgVo==null){
+            return  BaseResponse.createFail("不能发送空消息！");
+        }
+        String userId =String.valueOf(msgVo.getUserId());
+        String receiverId =String.valueOf(msgVo.getReceiverId());
+        String msg = msgVo.getMsg();
         //发送人为空
         if(StringUtils.isEmpty(userId)){
             log.error("userId null receiverId={},msg={}",receiverId,msg);
@@ -43,7 +51,7 @@ public class SendController {
         if (StringUtils.isEmpty(msg)) {
             return  BaseResponse.createFail("不能发送空消息！");
         }
-        String result = httpMsgHandler.sendMsg(userId,receiverId,msg,0) ;
+        String result = httpMsgHandler.sendMsg(userId,receiverId,msg) ;
         if(StringUtils.isEmpty(result)){
             return BaseResponse.createSuccess();
         }else {

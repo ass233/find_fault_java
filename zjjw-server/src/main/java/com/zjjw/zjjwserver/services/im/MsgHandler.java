@@ -23,7 +23,7 @@ import java.util.Map;
 public class MsgHandler extends AbstractMsgHandler {
 
     @Override
-    public String sendMsg(String sessionId, String receiverId, String msg, Integer type) {
+    public String sendMsg(String sessionId, String receiverId, String msg) {
         String[] totalMsg = msg.split(";;");
         if (totalMsg.length > 1) {
             //私聊

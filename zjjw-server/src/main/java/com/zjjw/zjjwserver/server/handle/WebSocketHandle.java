@@ -38,7 +38,7 @@ public class WebSocketHandle extends SimpleChannelInboundHandler<Object> {
                 return;
             }
             //发送消息
-            String respones = msgHandler.sendMsg(sessionId,null,msgStr,0);
+            String respones = msgHandler.sendMsg(sessionId,null,msgStr);
             //返回发送结果
             //ctx.channel().writeAndFlush(new TextWebSocketFrame(respones));
         }else if(msg instanceof BinaryWebSocketFrame){

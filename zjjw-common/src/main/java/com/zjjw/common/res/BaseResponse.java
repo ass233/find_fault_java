@@ -29,6 +29,11 @@ public class BaseResponse<T> implements Serializable{
 		this.message = message;
 	}
 
+	public BaseResponse(String code, T dataBody) {
+		this.code = code;
+		this.dataBody = dataBody;
+	}
+
 	public BaseResponse(String code, String message, T dataBody) {
 		this.code = code;
 		this.message = message;
@@ -52,6 +57,10 @@ public class BaseResponse<T> implements Serializable{
 
 	public static <T> BaseResponse<T> createSuccess(){
 		return new BaseResponse<T>(StatusEnum.SUCCESS.getCode(),  StatusEnum.SUCCESS.getMessage());
+	}
+
+	public static <T> BaseResponse<T> createSuccess(T t){
+		return new BaseResponse<T>(StatusEnum.SUCCESS.getCode(), t);
 	}
 
 	public static <T> BaseResponse<T> createSuccess(T t, String message){

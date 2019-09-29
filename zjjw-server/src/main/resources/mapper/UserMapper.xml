@@ -76,7 +76,7 @@
         WHERE t.id = #{id}
     </select>
 
-    <select id="getByUsername" resultMap="BaseResultMap">
+    <select id="getByName" resultMap="BaseResultMap">
         SELECT
         <include refid="Base_Column_List"/>
         FROM user AS t

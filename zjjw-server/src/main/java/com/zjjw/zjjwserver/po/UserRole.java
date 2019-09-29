@@ -11,7 +11,7 @@ public class UserRole {
 
     private Long userId;
 
-    private Long reloId;
+    private Long roleId;
 
     private Date createTime;
 

@@ -12,7 +12,7 @@ public class UserRoleVo {
 
     private Long userId;
 
-    private Long reloId;
+    private Long roleId;
 
     private Date createTime;
 
