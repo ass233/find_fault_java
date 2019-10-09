@@ -22,6 +22,10 @@ public class UserService {
         return userMapper.getByName(username);
     }
 
+	public int insert(User user) {
+		return userMapper.insert(user);
+	}
+
     public int update(User user) {
         return userMapper.update(user);
     }

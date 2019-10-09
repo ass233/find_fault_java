@@ -82,8 +82,8 @@ CREATE TABLE `menu_role` (
   PRIMARY KEY (`id`)
 ) ENGINE=InnoDB AUTO_INCREMENT=278 DEFAULT CHARSET=utf8;
 
-DROP TABLE IF EXISTS `group`;
-CREATE TABLE `group` (
+DROP TABLE IF EXISTS `user_group`;
+CREATE TABLE `user_group` (
   `id` bigint(20) NOT NULL AUTO_INCREMENT COMMENT '群ID',
   `name` varchar(32) DEFAULT NULL COMMENT '群名称',
   `admin_id` bigint(20) DEFAULT NULL COMMENT '群主ID',
