@@ -23,6 +23,8 @@ public class User {
 
     private String password;
 
+	private String salt;
+
     private String userface;
 
     private String remark;

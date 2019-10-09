@@ -10,6 +10,7 @@
         <result column="enabled" jdbcType="BIT" property="enabled"/>
         <result column="username" jdbcType="VARCHAR" property="username"/>
         <result column="password" jdbcType="VARCHAR" property="password"/>
+        <result column="salt" jdbcType="VARCHAR" property="salt"/>
         <result column="userface" jdbcType="VARCHAR" property="userface"/>
         <result column="remark" jdbcType="VARCHAR" property="remark"/>
         <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
@@ -25,6 +26,7 @@
 		t.enabled,
 		t.username,
 		t.password,
+		t.salt,
 		t.userface,
 		t.remark,
 		t.create_time,
@@ -34,12 +36,12 @@
     <insert id="insert" parameterType="com.zjjw.zjjwserver.po.User">
         insert into user (id, name, phone,
           telephone, address, enabled,
-          username, password, userface,
+          username, password,  salt,userface,
           remark, create_time, update_time
           )
         values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{phone,jdbcType=CHAR},
           #{telephone,jdbcType=VARCHAR}, #{address,jdbcType=VARCHAR}, #{enabled,jdbcType=BIT},
-          #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{userface,jdbcType=VARCHAR},
+          #{username,jdbcType=VARCHAR}, #{password,jdbcType=VARCHAR}, #{salt,jdbcType=VARCHAR},#{userface,jdbcType=VARCHAR},
           #{remark,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
           )
     </insert>
