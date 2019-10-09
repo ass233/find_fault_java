@@ -48,7 +48,11 @@
         </javaClientGenerator>
         <!-- 指定数据库表 -->
 
-        <table schema="" tableName="company_info"></table>
+        <table tableName="group_to_user" domainObjectName="GroupToUser"
+               enableCountByExample="false" enableUpdateByExample="false" enableDeleteByExample="false"
+               enableSelectByExample="false" selectByExampleQueryId="false" >
+            <property name="useActualColumnNames" value="false"/>
+        </table>
 
     </context>
 </generatorConfiguration>
