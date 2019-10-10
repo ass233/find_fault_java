@@ -1,6 +1,8 @@
 package com.zjjw.zjjwserver.controller.im;
 
+import com.zjjw.common.enmus.MsgTypeEnum;
 import com.zjjw.common.res.BaseResponse;
+import com.zjjw.zjjwserver.services.im.HttpMsgGroupHandler;
 import com.zjjw.zjjwserver.services.im.HttpMsgHandler;
 import com.zjjw.zjjwserver.services.im.MsgHandler;
 import com.zjjw.zjjwserver.spi.req.ImMsgVo;
@@ -27,6 +29,8 @@ public class SendController {
 
     @Autowired
     HttpMsgHandler httpMsgHandler;
+	@Autowired
+	HttpMsgGroupHandler groupHandler;
 
     @RequestMapping(value = "sendMsg")
     @ResponseBody
@@ -51,7 +55,12 @@ public class SendController {
         if (StringUtils.isEmpty(msg)) {
             return  BaseResponse.createFail("不能发送空消息！");
         }
-        String result = httpMsgHandler.sendMsg(userId,receiverId,msg) ;
+        String result ;
+	    if(MsgTypeEnum.PRIVATE.code().equals(msgVo.getType())){
+		    result =httpMsgHandler.sendMsg(userId,receiverId,msg);
+	    }else {
+		    result =groupHandler.sendMsg(userId,receiverId,msg);
+	    }
         if(StringUtils.isEmpty(result)){
             return BaseResponse.createSuccess();
         }else {
