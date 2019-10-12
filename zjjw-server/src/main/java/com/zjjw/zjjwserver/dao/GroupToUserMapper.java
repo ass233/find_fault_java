@@ -2,18 +2,19 @@ package com.zjjw.zjjwserver.dao;
 
 import com.zjjw.zjjwserver.po.GroupToUser;
 import org.apache.ibatis.annotations.Mapper;
+import org.apache.ibatis.annotations.Param;
+
+import java.util.List;
 
 @Mapper
 public interface GroupToUserMapper {
-    int deleteByPrimaryKey(Long id);
+    int deleteById(Long id);
 
     int insert(GroupToUser record);
 
-    int insertSelective(GroupToUser record);
+    GroupToUser selectById(Long id);
 
-    GroupToUser selectByPrimaryKey(Long id);
+    int updateById(GroupToUser record);
 
-    int updateByPrimaryKeySelective(GroupToUser record);
-
-    int updateByPrimaryKey(GroupToUser record);
+	List<GroupToUser> list(@Param("pojo") GroupToUser groupToUser);
 }

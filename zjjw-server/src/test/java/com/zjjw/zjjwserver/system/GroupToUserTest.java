@@ -35,4 +35,11 @@ public class GroupToUserTest {
 	public void addGroupToUser(){
 		log.info("addGroupToUser "+groupToUserService.insert(this.initE()));
 	}
+
+	@Test
+	public void list(){
+		GroupToUser userGroup = new GroupToUser();
+		userGroup.setGroupId(1l);
+		log.info("addGroupToUser "+groupToUserService.list(userGroup));
+	}
 }

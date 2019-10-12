@@ -12,89 +12,25 @@
   <sql id="Base_Column_List" >
     id, user_id, group_id, nick, create_time, update_time
   </sql>
-  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Long" >
-    select 
+  <select id="selectById" resultMap="BaseResultMap" parameterType="java.lang.Long" >
+    select
     <include refid="Base_Column_List" />
     from group_to_user
     where id = #{id,jdbcType=BIGINT}
   </select>
-  <delete id="deleteByPrimaryKey" parameterType="java.lang.Long" >
+  <delete id="deleteById" parameterType="java.lang.Long" >
     delete from group_to_user
     where id = #{id,jdbcType=BIGINT}
   </delete>
   <insert id="insert" parameterType="com.zjjw.zjjwserver.po.GroupToUser" >
-    insert into group_to_user (id, user_id, group_id, 
+    insert into group_to_user (id, user_id, group_id,
       nick, create_time, update_time
       )
-    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{groupId,jdbcType=BIGINT}, 
+    values (#{id,jdbcType=BIGINT}, #{userId,jdbcType=BIGINT}, #{groupId,jdbcType=BIGINT},
       #{nick,jdbcType=VARCHAR}, #{createTime,jdbcType=TIMESTAMP}, #{updateTime,jdbcType=TIMESTAMP}
       )
   </insert>
-  <insert id="insertSelective" parameterType="com.zjjw.zjjwserver.po.GroupToUser" >
-    insert into group_to_user
-    <trim prefix="(" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        id,
-      </if>
-      <if test="userId != null" >
-        user_id,
-      </if>
-      <if test="groupId != null" >
-        group_id,
-      </if>
-      <if test="nick != null" >
-        nick,
-      </if>
-      <if test="createTime != null" >
-        create_time,
-      </if>
-      <if test="updateTime != null" >
-        update_time,
-      </if>
-    </trim>
-    <trim prefix="values (" suffix=")" suffixOverrides="," >
-      <if test="id != null" >
-        #{id,jdbcType=BIGINT},
-      </if>
-      <if test="userId != null" >
-        #{userId,jdbcType=BIGINT},
-      </if>
-      <if test="groupId != null" >
-        #{groupId,jdbcType=BIGINT},
-      </if>
-      <if test="nick != null" >
-        #{nick,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null" >
-        #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null" >
-        #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-    </trim>
-  </insert>
-  <update id="updateByPrimaryKeySelective" parameterType="com.zjjw.zjjwserver.po.GroupToUser" >
-    update group_to_user
-    <set >
-      <if test="userId != null" >
-        user_id = #{userId,jdbcType=BIGINT},
-      </if>
-      <if test="groupId != null" >
-        group_id = #{groupId,jdbcType=BIGINT},
-      </if>
-      <if test="nick != null" >
-        nick = #{nick,jdbcType=VARCHAR},
-      </if>
-      <if test="createTime != null" >
-        create_time = #{createTime,jdbcType=TIMESTAMP},
-      </if>
-      <if test="updateTime != null" >
-        update_time = #{updateTime,jdbcType=TIMESTAMP},
-      </if>
-    </set>
-    where id = #{id,jdbcType=BIGINT}
-  </update>
-  <update id="updateByPrimaryKey" parameterType="com.zjjw.zjjwserver.po.GroupToUser" >
+  <update id="updateById" parameterType="com.zjjw.zjjwserver.po.GroupToUser" >
     update group_to_user
     set user_id = #{userId,jdbcType=BIGINT},
       group_id = #{groupId,jdbcType=BIGINT},
@@ -103,4 +39,18 @@
       update_time = #{updateTime,jdbcType=TIMESTAMP}
     where id = #{id,jdbcType=BIGINT}
   </update>
+
+    <select id="list" resultMap="BaseResultMap">
+        SELECT
+        <include refid="Base_Column_List"/>
+        FROM group_to_user AS t
+        <trim prefix="WHERE" prefixOverrides="AND | OR">
+            <if test="pojo.groupId != null and pojo.groupId != ''">
+                AND t.group_id = #{pojo.groupId}
+            </if>
+            <if test="pojo.userId != null and pojo.userId != ''">
+                AND t.user_id = #{pojo.userId}
+            </if>
+        </trim>
+    </select>
 </mapper>

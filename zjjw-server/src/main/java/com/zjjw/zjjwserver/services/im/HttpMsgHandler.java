@@ -30,7 +30,7 @@ import java.util.Map;
 public  class HttpMsgHandler extends AbstractMsgHandler{
     private final static Logger LOGGER = LoggerFactory.getLogger(HttpMsgHandler.class);
     @Autowired
-    private InnerCommandContext innerCommandContext ;
+    InnerCommandContext innerCommandContext ;
 
     @Override
     public String sendMsg(String userId, String receiverId, String msg) {
