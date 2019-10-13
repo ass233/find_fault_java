@@ -41,7 +41,7 @@ public class RoleService {
      * @throws Exception
      */
     public List<String> getRoles(Long userId){
-        String url = randomHandle.getServerUrl("/getListByUserId");
+        String url = randomHandle.getServerUrl("/role/getListByUserId");
         UserRoleVo userRoleVo = new UserRoleVo();
         userRoleVo.setUserId(userId);
         String json = httpUtils.sendMsg(url, JSON.toJSONString(userRoleVo));

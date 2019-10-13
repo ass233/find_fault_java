@@ -35,7 +35,7 @@ public class UserService {
      * @throws Exception
      */
     public UserVo getPasswordByUserName(String userName){
-        String url = randomHandle.getServerUrl("/getByName");
+        String url = randomHandle.getServerUrl("/user/getByName");
         UserVo userVo = new UserVo();
         userVo.setName(userName);
         String json = httpUtils.sendMsg(url, JSON.toJSONString(userVo));

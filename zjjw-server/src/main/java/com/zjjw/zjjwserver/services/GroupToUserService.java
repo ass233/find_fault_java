@@ -8,6 +8,7 @@ import org.apache.ibatis.annotations.Param;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Date;
 import java.util.List;
 
 /**
@@ -22,6 +23,8 @@ public class GroupToUserService {
     GroupToUserMapper groupToUserMapper;
 
 	public int insert(GroupToUser groupToUser) {
+		groupToUser.setCreateTime(new Date());
+		groupToUser.setUpdateTime(new Date());
 		return groupToUserMapper.insert(groupToUser);
 	}
 

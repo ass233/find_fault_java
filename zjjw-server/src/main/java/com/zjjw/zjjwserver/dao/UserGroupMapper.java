@@ -7,7 +7,7 @@ import org.apache.ibatis.annotations.Mapper;
 public interface UserGroupMapper {
     int deleteById(Long id);
 
-    int insert(UserGroup record);
+    void insert(UserGroup record);
 
     int insertSelective(UserGroup record);
 

@@ -23,7 +23,7 @@ import java.util.Arrays;
  * @description:
  **/
 @Controller
-@RequestMapping("/")
+@RequestMapping("/im")
 @Slf4j
 public class SendController {
 
@@ -32,7 +32,7 @@ public class SendController {
 	@Autowired
 	HttpMsgGroupHandler groupHandler;
 
-    @RequestMapping(value = "sendMsg")
+    @RequestMapping(value = "/sendMsg")
     @ResponseBody
     public BaseResponse sendMsg(@RequestBody ImMsgVo msgVo){
         log.info("msgVo={}",  msgVo);
