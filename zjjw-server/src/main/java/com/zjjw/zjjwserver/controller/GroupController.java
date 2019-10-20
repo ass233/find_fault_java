@@ -7,6 +7,7 @@ import com.zjjw.zjjwserver.po.UserGroup;
 import com.zjjw.zjjwserver.services.GroupService;
 import com.zjjw.zjjwserver.services.GroupToUserService;
 import com.zjjw.zjjwserver.services.UserService;
+import com.zjjw.zjjwserver.spi.res.GroupToUserVo;
 import com.zjjw.zjjwserver.spi.res.UserGroupVo;
 import com.zjjw.zjjwserver.spi.res.UserVo;
 import lombok.extern.slf4j.Slf4j;
@@ -56,4 +57,18 @@ public class GroupController {
         }
     }
 
+    @RequestMapping(value = "/joinGroup")
+    @ResponseBody
+    public BaseResponse joinGroup(@RequestBody GroupToUserVo groupToUserVo){
+        log.info("groupToUserVo={}",groupToUserVo);
+        GroupToUser groupToUser = new GroupToUser();
+        BeanUtils.copyProperties(groupToUserVo,groupToUser);
+        int result =  groupToUserService.insert(groupToUser);
+        if(result>0){
+            return BaseResponse.createSuccess();
+        }else {
+            log.error("groupToUserVo={}",groupToUserVo);
+            return BaseResponse.createFail("加入群失败");
+        }
+    }
 }
