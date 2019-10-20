@@ -22,11 +22,12 @@ import java.util.List;
  * @description: 用户
  **/
 @Controller
-@RequestMapping("/")
+@RequestMapping("/user")
 @Slf4j
 public class UserController {
     @Autowired
     UserService userService;
+
     @RequestMapping(value = "getAllUser")
     @ResponseBody
     public String getAllUser(){

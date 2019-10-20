@@ -27,7 +27,7 @@ import java.util.List;
  * @description:
  **/
 @Controller
-@RequestMapping("/")
+@RequestMapping("/role")
 @Slf4j
 public class RoleController {
     @Autowired

@@ -22,7 +22,7 @@ import java.util.List;
  * @description:
  **/
 @Controller
-@RequestMapping("/")
+@RequestMapping("/menu")
 @Slf4j
 public class MenuController {
     @Autowired

@@ -39,7 +39,7 @@ public class SendService {
         if(serverResVO==null){
             return BaseResponse.createFail("用户不在线");
         }
-        String url = randomHandle.getImServerUrl(serverResVO,"/sendMsg");
+        String url = randomHandle.getImServerUrl(serverResVO,"/im/sendMsg");
         String json = httpUtils.sendMsg(url, JSON.toJSONString(msgVo));
         return JSON.parseObject(json,new TypeReference<BaseResponse<UserVo>>() {});
     }

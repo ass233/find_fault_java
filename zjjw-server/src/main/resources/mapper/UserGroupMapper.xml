@@ -25,7 +25,7 @@
     delete from user_group
     where id = #{id,jdbcType=BIGINT}
   </delete>
-  <insert id="insert" parameterType="com.zjjw.zjjwserver.po.UserGroup" >
+  <insert id="insert" useGeneratedKeys="true" keyProperty="id"  parameterType="com.zjjw.zjjwserver.po.UserGroup" >
     insert into user_group (id, name, admin_id,
       icon, notice, info,
       remark, create_time, update_time
