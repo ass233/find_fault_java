@@ -56,4 +56,25 @@ public class GroupController {
         }
     }
 
+	@RequestMapping(value = "/exitGroup")
+	@ResponseBody
+	public BaseResponse exitGroup(@RequestBody UserGroupVo userGroupVo){
+		log.info("userGroupVo={}",userGroupVo);
+		UserGroup userGroup = new UserGroup();
+		BeanUtils.copyProperties(userGroupVo,userGroup);
+		long groupId = groupService.insert(userGroup);
+		if(groupId<=0){
+			return BaseResponse.createFail("创建群失败");
+		}
+		GroupToUser groupToUser = new GroupToUser();
+		groupToUser.setGroupId(groupId);
+		groupToUser.setUserId(userGroupVo.getAdminId());
+		groupToUser.setNick(userGroupVo.getNick());
+		int result =  groupToUserService.insert(groupToUser);
+		if(result>0){
+			return BaseResponse.createSuccess();
+		}else {
+			return BaseResponse.createFail("创建群失败");
+		}
+	}
 }
