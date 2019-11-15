@@ -7,9 +7,7 @@ import com.zjjw.zjjwserver.po.UserGroup;
 import com.zjjw.zjjwserver.services.GroupService;
 import com.zjjw.zjjwserver.services.GroupToUserService;
 import com.zjjw.zjjwserver.services.UserService;
-import com.zjjw.zjjwserver.spi.res.GroupToUserVo;
-import com.zjjw.zjjwserver.spi.res.UserGroupVo;
-import com.zjjw.zjjwserver.spi.res.UserVo;
+import com.zjjw.zjjwserver.spi.res.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +16,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
@@ -91,5 +90,23 @@ public class GroupController {
 		}else {
 			return BaseResponse.createFail("创建群失败");
 		}
+	}
+
+	@RequestMapping(value = "/getGroupByUser")
+	@ResponseBody
+	public BaseResponse getGroupByUser(@RequestBody UserVo userVo){
+		log.info("UserVo={}",userVo);
+		CurrentGroupsVo currentGroupsVo = new CurrentGroupsVo();
+		currentGroupsVo.setName("分享群1");
+		currentGroupsVo.setUid(1);
+		currentGroupsVo.setUnread(1);
+		List<VueUserVo> userVos = new ArrayList<>();
+		VueUserVo vueUserVo = new VueUserVo();
+		vueUserVo.setUid(1L);
+		userVos.add(vueUserVo);
+		currentGroupsVo.setUsers(userVos);
+		List<CurrentGroupsVo> list = new ArrayList<>();
+		list.add(currentGroupsVo);
+		return BaseResponse.createSuccess(list);
 	}
 }

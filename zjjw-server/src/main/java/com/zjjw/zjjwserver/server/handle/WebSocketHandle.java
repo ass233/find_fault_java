@@ -35,6 +35,7 @@ public class WebSocketHandle extends SimpleChannelInboundHandler<Object> {
             String sessionId = ctx.channel().id().asLongText();
             //ws登录
             if (msgHandler.login(ctx, sessionId, msgStr)) {
+	            ctx.channel().writeAndFlush(new TextWebSocketFrame("{\"type\":\"01\",\"msg\":\"fenfenfff\",\"uid\":1,\"status\":1,\"bridge\":{\"length\":true}}"));
                 return;
             }
             //发送消息
