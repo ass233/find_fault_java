@@ -29,9 +29,9 @@ public class LoginAuthenticationProvider implements AuthenticationProvider {
         String username = (String) authentication.getPrincipal();
         // 获取表单用户填写的密码
         String password = (String) authentication.getCredentials();
-
+        //认证系统中的用户信息
         UserDetails userDetails = userDetailsService.loadUserByUsername(username);
-
+        //认证系统中的密码
         String password1 = userDetails.getPassword();
         if (!Objects.equals(password,password1)){
             throw new BadCredentialsException("用户名或密码不正确");

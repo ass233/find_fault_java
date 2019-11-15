@@ -50,6 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     public void configure(WebSecurity web){
+        //不需要权限校验的
         web.ignoring().antMatchers("/index", "/static/**", "/hhh");
     }
 
@@ -65,16 +66,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                         return o;
                     }
                 })
-
                 .anyRequest()
                 .authenticated()// 其他 url 需要身份认证
-
                 .and()
                 .formLogin()  //开启登录
                 .successHandler(new MyAuthenticationSuccessHandler())
                 .failureHandler(new MyAuthenticationFailureHandler())
                 .permitAll()
-
                 .and()
                 .logout()
                 .logoutUrl("/logout")
